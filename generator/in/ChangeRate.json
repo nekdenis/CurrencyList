@@ -1,10 +1,6 @@
 {
 	"fields": [
 		{
-			"name": "id"
-
-		}
-		{
 			"name": "path",
 			"type": "String",
 			"nullable": false,
