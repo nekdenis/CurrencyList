@@ -1,0 +1,12 @@
+{
+    "syntaxVersion": "2",
+    "projectPackageId": "com.github.nekdenis.currencylist",
+    "authority": "com.github.nekdenis.currencylistprovider",
+    "providerJavaPackage": "com.github.nekdenis.currencylist.db.provider",
+    "providerClassName": "Provider",
+    "sqliteOpenHelperClassName": "SQLiteOpenHelper",
+    "sqliteOpenHelperCallbacksClassName": "SQLiteOpenHelperCallbacks",
+    "databaseFileName": "currencylist.db",
+    "databaseVersion": 1,
+    "enableForeignKeys": true,
+}

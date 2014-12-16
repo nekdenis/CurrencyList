@@ -1,0 +1,50 @@
+{
+	"fields": [
+		{
+			"name": "id"
+
+		}
+		{
+			"name": "path",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "name",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "rate",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "date",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "time",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "ask",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "bid",
+			"type": "String",
+			"nullable": false,
+		},
+	],
+
+	"constraints": [
+		{
+			"name": "unique_time",
+			"definition": "UNIQUE (name, date, time) ON CONFLICT REPLACE"
+		},
+	],
+}
