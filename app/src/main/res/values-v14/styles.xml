@@ -19,7 +19,7 @@
     <!-- main activity action bar styles -->
     <style name="ActionBar.Solid.Sunshine.NoTitle" parent="@style/ActionBar.Solid.Sunshine">
         <item name="android:displayOptions">useLogo|showHome</item>
-        <item name="android:logo">@drawable/ic_logo</item>
+        <item name="android:logo">@drawable/abc_ic_clear</item>
     </style>
 
 </resources>

@@ -12,8 +12,8 @@ import com.github.nekdenis.currencylist.BuildConfig;
  *
  * This file will not be overwritten if you re-run the content provider generator.
  */
-public class SQLiteOpenHelperCallbacks {
-    private static final String TAG = SQLiteOpenHelperCallbacks.class.getSimpleName();
+public class MySQLiteOpenHelperCallbacks {
+    private static final String TAG = MySQLiteOpenHelperCallbacks.class.getSimpleName();
 
     public void onOpen(final Context context, final SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onOpen");

@@ -13,14 +13,14 @@ import android.util.Log;
 import com.github.nekdenis.currencylist.BuildConfig;
 import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
 
-public class SQLiteOpenHelper extends SQLiteOpenHelper {
-    private static final String TAG = SQLiteOpenHelper.class.getSimpleName();
+public class MySQLiteOpenHelper extends SQLiteOpenHelper {
+    private static final String TAG = MySQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "currencylist.db";
     private static final int DATABASE_VERSION = 1;
-    private static SQLiteOpenHelper sInstance;
+    private static MySQLiteOpenHelper sInstance;
     private final Context mContext;
-    private final SQLiteOpenHelperCallbacks mOpenHelperCallbacks;
+    private final MySQLiteOpenHelperCallbacks mOpenHelperCallbacks;
 
     // @formatter:off
     private static final String SQL_CREATE_TABLE_CHANGERATE = "CREATE TABLE IF NOT EXISTS "
@@ -38,7 +38,7 @@ public class SQLiteOpenHelper extends SQLiteOpenHelper {
 
     // @formatter:on
 
-    public static SQLiteOpenHelper getInstance(Context context) {
+    public static MySQLiteOpenHelper getInstance(Context context) {
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
         // See this article for more information: http://bit.ly/6LRzfx
@@ -48,7 +48,7 @@ public class SQLiteOpenHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    private static SQLiteOpenHelper newInstance(Context context) {
+    private static MySQLiteOpenHelper newInstance(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             return newInstancePreHoneycomb(context);
         }
@@ -60,14 +60,14 @@ public class SQLiteOpenHelper extends SQLiteOpenHelper {
      * Pre Honeycomb.
      */
 
-    private static SQLiteOpenHelper newInstancePreHoneycomb(Context context) {
-        return new SQLiteOpenHelper(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
+    private static MySQLiteOpenHelper newInstancePreHoneycomb(Context context) {
+        return new MySQLiteOpenHelper(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
     }
 
-    private SQLiteOpenHelper(Context context, String name, CursorFactory factory, int version) {
+    private MySQLiteOpenHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext = context;
-        mOpenHelperCallbacks = new SQLiteOpenHelperCallbacks();
+        mOpenHelperCallbacks = new MySQLiteOpenHelperCallbacks();
     }
 
 
@@ -76,15 +76,15 @@ public class SQLiteOpenHelper extends SQLiteOpenHelper {
      */
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private static SQLiteOpenHelper newInstancePostHoneycomb(Context context) {
-        return new SQLiteOpenHelper(context, DATABASE_FILE_NAME, null, DATABASE_VERSION, new DefaultDatabaseErrorHandler());
+    private static MySQLiteOpenHelper newInstancePostHoneycomb(Context context) {
+        return new MySQLiteOpenHelper(context, DATABASE_FILE_NAME, null, DATABASE_VERSION, new DefaultDatabaseErrorHandler());
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private SQLiteOpenHelper(Context context, String name, CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
+    private MySQLiteOpenHelper(Context context, String name, CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
         mContext = context;
-        mOpenHelperCallbacks = new SQLiteOpenHelperCallbacks();
+        mOpenHelperCallbacks = new MySQLiteOpenHelperCallbacks();
     }
 
 

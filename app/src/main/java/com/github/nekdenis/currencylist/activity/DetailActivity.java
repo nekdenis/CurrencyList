@@ -21,8 +21,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.android.sunshine.app.R;
-import com.github.nekdenis.currencylist.fragment.DetailFragment;
+import com.github.nekdenis.currencylist.R;
+import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -41,11 +41,11 @@ public class DetailActivity extends ActionBarActivity {
             Bundle arguments = new Bundle();
             arguments.putString(DetailActivity.DATE_KEY, date);
 
-            DetailFragment fragment = new DetailFragment();
+            ExchangeDetailFragment fragment = new ExchangeDetailFragment();
             fragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.weather_detail_container, fragment)
+                    .add(R.id.rates_detail_container, fragment)
                     .commit();
         }
     }

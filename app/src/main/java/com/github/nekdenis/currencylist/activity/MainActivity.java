@@ -21,15 +21,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.android.sunshine.app.R;
-import com.github.nekdenis.currencylist.fragment.DetailFragment;
-import com.github.nekdenis.currencylist.fragment.ForecastFragment;
+import com.github.nekdenis.currencylist.R;
+import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
+import com.github.nekdenis.currencylist.fragment.RatesFragment;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 
 
-public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback {
+public class MainActivity extends ActionBarActivity implements RatesFragment.OnItemSelectedListener {
 
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String TAG = MainActivity.class.getSimpleName();
 
     private boolean mTwoPane;
 
@@ -37,26 +37,20 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (findViewById(R.id.weather_detail_container) != null) {
-            // The detail container view will be present only in the large-screen layouts
-            // (res/layout-sw600dp). If this view is present, then the activity should be
-            // in two-pane mode.
+        if (findViewById(R.id.rates_detail_container) != null) {
             mTwoPane = true;
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new DetailFragment())
+                        .replace(R.id.rates_detail_container, new ExchangeDetailFragment())
                         .commit();
             }
         } else {
             mTwoPane = false;
         }
 
-        ForecastFragment forecastFragment =  ((ForecastFragment)getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_forecast));
-        forecastFragment.setUseTodayLayout(!mTwoPane);
+        RatesFragment forecastFragment =  ((RatesFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_rates));
+//        forecastFragment.setUseTodayLayout(!mTwoPane);
 
         CurrenciesSyncAdapter.initializeSyncAdapter(this);
 
@@ -65,16 +59,12 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
@@ -87,17 +77,14 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     @Override
     public void onItemSelected(String date) {
         if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
             Bundle args = new Bundle();
             args.putString(DetailActivity.DATE_KEY, date);
 
-            DetailFragment fragment = new DetailFragment();
+            ExchangeDetailFragment fragment = new ExchangeDetailFragment();
             fragment.setArguments(args);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.weather_detail_container, fragment)
+                    .replace(R.id.rates_detail_container, fragment)
                     .commit();
         } else {
             Intent intent = new Intent(this, DetailActivity.class)

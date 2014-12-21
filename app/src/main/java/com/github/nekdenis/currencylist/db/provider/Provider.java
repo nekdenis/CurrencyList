@@ -1,10 +1,5 @@
 package com.github.nekdenis.currencylist.db.provider;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -19,6 +14,11 @@ import android.util.Log;
 
 import com.github.nekdenis.currencylist.BuildConfig;
 import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class Provider extends ContentProvider {
     private static final String TAG = Provider.class.getSimpleName();
@@ -46,7 +46,7 @@ public class Provider extends ContentProvider {
         URI_MATCHER.addURI(AUTHORITY, ChangerateColumns.TABLE_NAME + "/#", URI_TYPE_CHANGERATE_ID);
     }
 
-    protected SQLiteOpenHelper mSQLiteOpenHelper;
+    protected MySQLiteOpenHelper mMySQLiteOpenHelper;
 
     @Override
     public boolean onCreate() {
@@ -67,7 +67,7 @@ public class Provider extends ContentProvider {
             }
         }
 
-        mSQLiteOpenHelper = SQLiteOpenHelper.getInstance(getContext());
+        mMySQLiteOpenHelper = MySQLiteOpenHelper.getInstance(getContext());
         return true;
     }
 
@@ -88,7 +88,7 @@ public class Provider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         if (DEBUG) Log.d(TAG, "insert uri=" + uri + " values=" + values);
         String table = uri.getLastPathSegment();
-        long rowId = mSQLiteOpenHelper.getWritableDatabase().insertOrThrow(table, null, values);
+        long rowId = mMySQLiteOpenHelper.getWritableDatabase().insertOrThrow(table, null, values);
         if (rowId == -1) return null;
         String notify;
         if (rowId != -1 && ((notify = uri.getQueryParameter(QUERY_NOTIFY)) == null || "true".equals(notify))) {
@@ -101,7 +101,7 @@ public class Provider extends ContentProvider {
     public int bulkInsert(Uri uri, ContentValues[] values) {
         if (DEBUG) Log.d(TAG, "bulkInsert uri=" + uri + " values.length=" + values.length);
         String table = uri.getLastPathSegment();
-        SQLiteDatabase db = mSQLiteOpenHelper.getWritableDatabase();
+        SQLiteDatabase db = mMySQLiteOpenHelper.getWritableDatabase();
         int res = 0;
         db.beginTransaction();
         try {
@@ -128,7 +128,7 @@ public class Provider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         if (DEBUG) Log.d(TAG, "update uri=" + uri + " values=" + values + " selection=" + selection + " selectionArgs=" + Arrays.toString(selectionArgs));
         QueryParams queryParams = getQueryParams(uri, selection, null);
-        int res = mSQLiteOpenHelper.getWritableDatabase().update(queryParams.table, values, queryParams.selection, selectionArgs);
+        int res = mMySQLiteOpenHelper.getWritableDatabase().update(queryParams.table, values, queryParams.selection, selectionArgs);
         String notify;
         if (res != 0 && ((notify = uri.getQueryParameter(QUERY_NOTIFY)) == null || "true".equals(notify))) {
             getContext().getContentResolver().notifyChange(uri, null);
@@ -140,7 +140,7 @@ public class Provider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         if (DEBUG) Log.d(TAG, "delete uri=" + uri + " selection=" + selection + " selectionArgs=" + Arrays.toString(selectionArgs));
         QueryParams queryParams = getQueryParams(uri, selection, null);
-        int res = mSQLiteOpenHelper.getWritableDatabase().delete(queryParams.table, queryParams.selection, selectionArgs);
+        int res = mMySQLiteOpenHelper.getWritableDatabase().delete(queryParams.table, queryParams.selection, selectionArgs);
         String notify;
         if (res != 0 && ((notify = uri.getQueryParameter(QUERY_NOTIFY)) == null || "true".equals(notify))) {
             getContext().getContentResolver().notifyChange(uri, null);
@@ -156,7 +156,7 @@ public class Provider extends ContentProvider {
                     + " groupBy=" + groupBy);
         QueryParams queryParams = getQueryParams(uri, selection, projection);
         ensureIdIsFullyQualified(projection, queryParams.table);
-        Cursor res = mSQLiteOpenHelper.getReadableDatabase().query(queryParams.tablesWithJoins, projection, queryParams.selection, selectionArgs, groupBy,
+        Cursor res = mMySQLiteOpenHelper.getReadableDatabase().query(queryParams.tablesWithJoins, projection, queryParams.selection, selectionArgs, groupBy,
                 null, sortOrder == null ? queryParams.orderBy : sortOrder);
         res.setNotificationUri(getContext().getContentResolver(), uri);
         return res;
@@ -178,7 +178,7 @@ public class Provider extends ContentProvider {
         for (ContentProviderOperation operation : operations) {
             urisToNotify.add(operation.getUri());
         }
-        SQLiteDatabase db = mSQLiteOpenHelper.getWritableDatabase();
+        SQLiteDatabase db = mMySQLiteOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
             int numOperations = operations.size();
