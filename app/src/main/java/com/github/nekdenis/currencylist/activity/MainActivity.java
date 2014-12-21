@@ -15,6 +15,7 @@
  */
 package com.github.nekdenis.currencylist.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
 import com.github.nekdenis.currencylist.fragment.RatesFragment;
+import com.github.nekdenis.currencylist.fragment.dialog.AddCurrencyDialog;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 
 
@@ -66,8 +68,8 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+        if (id == R.id.action_add) {
+            AddCurrencyDialog.newInstance(onAddCurencyClickListener).show(getSupportFragmentManager(), "AddCurrencyDialog");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -92,4 +94,11 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
             startActivity(intent);
         }
     }
+
+    private AddCurrencyDialog.OnDialogClickListener onAddCurencyClickListener = new AddCurrencyDialog.OnDialogClickListener() {
+        @Override
+        public void onAddClick(String name, Dialog dialog) {
+            //TODO:
+        }
+    };
 }

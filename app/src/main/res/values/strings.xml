@@ -2,12 +2,18 @@
 <resources>
 
     <string name="app_name">Currencies List</string>
+
     <!--Exchange detail-->
     <string name="exchange_current_label">Current value: %s</string>
-    <string name="action_share">Share</string>
+
     <!-- SyncAdapter -->
     <string name="sync_account_type">currencylist.nekdenis.github.com</string>
     <string name="content_authority">com.github.nekdenis.currencylistprovider</string>
-    <string name="action_settings">Settings</string>
+
+    <!-- AddCurrencyDialog -->
+    <string name="add_currency_button">Add</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_add">Add currency</string>
 
 </resources>
