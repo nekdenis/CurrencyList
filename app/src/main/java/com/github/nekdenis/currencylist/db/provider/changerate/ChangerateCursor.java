@@ -5,6 +5,7 @@ import java.util.Date;
 import android.database.Cursor;
 
 import com.github.nekdenis.currencylist.db.provider.base.AbstractCursor;
+import com.github.nekdenis.currencylist.db.provider.names.*;
 
 /**
  * Cursor wrapper for the {@code changerate} table.
@@ -15,11 +16,20 @@ public class ChangerateCursor extends AbstractCursor {
     }
 
     /**
-     * Get the {@code path} value.
+     * Get the {@code names} value.
      * Cannot be {@code null}.
      */
-    public String getPath() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.PATH);
+    public String getNames() {
+        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.NAMES);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code names} value.
+     * Cannot be {@code null}.
+     */
+    public String getNamesNames() {
+        Integer index = getCachedColumnIndexOrThrow(NamesColumns.NAMES);
         return getString(index);
     }
 
@@ -27,8 +37,17 @@ public class ChangerateCursor extends AbstractCursor {
      * Get the {@code name} value.
      * Cannot be {@code null}.
      */
-    public String getName() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.NAME);
+    public String getNamesName() {
+        Integer index = getCachedColumnIndexOrThrow(NamesColumns.NAME);
+        return getString(index);
+    }
+
+    /**
+     * Get the {@code title} value.
+     * Cannot be {@code null}.
+     */
+    public String getTitle() {
+        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.TITLE);
         return getString(index);
     }
 

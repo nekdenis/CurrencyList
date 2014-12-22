@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.github.nekdenis.currencylist.BuildConfig;
 import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
+import com.github.nekdenis.currencylist.db.provider.names.NamesColumns;
 
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = MySQLiteOpenHelper.class.getSimpleName();
@@ -26,14 +27,23 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_CHANGERATE = "CREATE TABLE IF NOT EXISTS "
             + ChangerateColumns.TABLE_NAME + " ( "
             + ChangerateColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ChangerateColumns.PATH + " TEXT NOT NULL, "
-            + ChangerateColumns.NAME + " TEXT NOT NULL, "
+            + ChangerateColumns.NAMES + " TEXT NOT NULL, "
+            + ChangerateColumns.TITLE + " TEXT NOT NULL, "
             + ChangerateColumns.RATE + " TEXT NOT NULL, "
             + ChangerateColumns.DATE + " TEXT NOT NULL, "
             + ChangerateColumns.TIME + " TEXT NOT NULL, "
             + ChangerateColumns.ASK + " TEXT NOT NULL, "
             + ChangerateColumns.BID + " TEXT NOT NULL "
-            + ", CONSTRAINT unique_time UNIQUE (name, date, time) ON CONFLICT REPLACE"
+            + ", CONSTRAINT fk_names FOREIGN KEY (" + ChangerateColumns.NAMES + ") REFERENCES names (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT unique_time UNIQUE (names, date, time) ON CONFLICT REPLACE"
+            + " );";
+
+    private static final String SQL_CREATE_TABLE_NAMES = "CREATE TABLE IF NOT EXISTS "
+            + NamesColumns.TABLE_NAME + " ( "
+            + NamesColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NamesColumns.NAMES + " TEXT NOT NULL, "
+            + NamesColumns.NAME + " TEXT NOT NULL "
+            + ", CONSTRAINT unique_names UNIQUE (names) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on
@@ -93,6 +103,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
         db.execSQL(SQL_CREATE_TABLE_CHANGERATE);
+        db.execSQL(SQL_CREATE_TABLE_NAMES);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

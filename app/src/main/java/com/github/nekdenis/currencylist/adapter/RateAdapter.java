@@ -50,7 +50,7 @@ public class RateAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
         ChangerateCursor changerateCursor = new ChangerateCursor(cursor);
-        holder.nameA.setText(changerateCursor.getName());
+        holder.nameA.setText(changerateCursor.getTitle());
         holder.valueA.setText(changerateCursor.getRate());
 
     }

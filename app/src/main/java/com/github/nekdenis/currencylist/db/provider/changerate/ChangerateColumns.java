@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 
 import com.github.nekdenis.currencylist.db.provider.Provider;
 import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
+import com.github.nekdenis.currencylist.db.provider.names.NamesColumns;
 
 /**
  * Columns for the {@code changerate} table.
@@ -18,9 +19,9 @@ public class ChangerateColumns implements BaseColumns {
      */
     public static final String _ID = new String(BaseColumns._ID);
 
-    public static final String PATH = "path";
+    public static final String NAMES = "changerate__names";
 
-    public static final String NAME = "name";
+    public static final String TITLE = "title";
 
     public static final String RATE = "rate";
 
@@ -38,8 +39,8 @@ public class ChangerateColumns implements BaseColumns {
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
-            PATH,
-            NAME,
+            NAMES,
+            TITLE,
             RATE,
             DATE,
             TIME,
@@ -51,8 +52,8 @@ public class ChangerateColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
-            if (c == PATH || c.contains("." + PATH)) return true;
-            if (c == NAME || c.contains("." + NAME)) return true;
+            if (c == NAMES || c.contains("." + NAMES)) return true;
+            if (c == TITLE || c.contains("." + TITLE)) return true;
             if (c == RATE || c.contains("." + RATE)) return true;
             if (c == DATE || c.contains("." + DATE)) return true;
             if (c == TIME || c.contains("." + TIME)) return true;
@@ -62,4 +63,5 @@ public class ChangerateColumns implements BaseColumns {
         return false;
     }
 
+    public static final String PREFIX_NAMES = TABLE_NAME + "__" + NamesColumns.TABLE_NAME;
 }

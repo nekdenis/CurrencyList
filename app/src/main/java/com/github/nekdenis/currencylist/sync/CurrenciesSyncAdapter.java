@@ -81,8 +81,8 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
                 JSONObject rate = rateArray.getJSONObject(i);
 
                 ChangerateContentValues contentValues = new ChangerateContentValues();
-                contentValues.putPath(rate.optString("id"));
-                contentValues.putName(rate.optString("Name"));
+                contentValues.putNames(rate.optString("id"));
+                contentValues.putTitle(rate.optString("Name"));
                 contentValues.putRate(rate.optString("Rate"));
                 contentValues.putDate(rate.optString("Date"));
                 contentValues.putTime(rate.optString("Time"));

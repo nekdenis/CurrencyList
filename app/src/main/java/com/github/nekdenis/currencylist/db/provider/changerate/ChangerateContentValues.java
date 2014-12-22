@@ -26,17 +26,17 @@ public class ChangerateContentValues extends AbstractContentValues {
         return contentResolver.update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
-    public ChangerateContentValues putPath(String value) {
-        if (value == null) throw new IllegalArgumentException("value for path must not be null");
-        mContentValues.put(ChangerateColumns.PATH, value);
+    public ChangerateContentValues putNames(String value) {
+        if (value == null) throw new IllegalArgumentException("value for names must not be null");
+        mContentValues.put(ChangerateColumns.NAMES, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putName(String value) {
-        if (value == null) throw new IllegalArgumentException("value for name must not be null");
-        mContentValues.put(ChangerateColumns.NAME, value);
+    public ChangerateContentValues putTitle(String value) {
+        if (value == null) throw new IllegalArgumentException("value for title must not be null");
+        mContentValues.put(ChangerateColumns.TITLE, value);
         return this;
     }
 

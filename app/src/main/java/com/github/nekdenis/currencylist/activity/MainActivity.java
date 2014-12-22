@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.nekdenis.currencylist.R;
+import com.github.nekdenis.currencylist.db.provider.names.NamesContentValues;
 import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
 import com.github.nekdenis.currencylist.fragment.RatesFragment;
 import com.github.nekdenis.currencylist.fragment.dialog.AddCurrencyDialog;
@@ -50,7 +51,7 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
             mTwoPane = false;
         }
 
-        RatesFragment forecastFragment =  ((RatesFragment)getSupportFragmentManager()
+        RatesFragment forecastFragment = ((RatesFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_rates));
 //        forecastFragment.setUseTodayLayout(!mTwoPane);
 
@@ -97,8 +98,10 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
 
     private AddCurrencyDialog.OnDialogClickListener onAddCurencyClickListener = new AddCurrencyDialog.OnDialogClickListener() {
         @Override
-        public void onAddClick(String name, Dialog dialog) {
-            //TODO:
+        public void onAddClick(String from, String to, Dialog dialog) {
+            NamesContentValues namesContentValues = new NamesContentValues();
+            namesContentValues.putNames(from + to);
+            namesContentValues.putName(getString(R.string.add_currency_name, from, to));
         }
     };
 }

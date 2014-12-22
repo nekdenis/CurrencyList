@@ -1,1 +1,1 @@
-java -jar android-contentprovider-generator-1.8.3-bundle.jar -i in -o out
+java -jar android_contentprovider_generator-1.8.3-bundle.jar -i in -o out

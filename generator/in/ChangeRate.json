@@ -1,12 +1,16 @@
 {
 	"fields": [
 		{
-			"name": "path",
+			"name": "names",
 			"type": "String",
 			"nullable": false,
+			"foreignKey": {
+				"table": "Names",
+				"onDelete": "CASCADE"
+			}
 		},
 		{
-			"name": "name",
+			"name": "title",
 			"type": "String",
 			"nullable": false,
 		},
@@ -40,7 +44,7 @@
 	"constraints": [
 		{
 			"name": "unique_time",
-			"definition": "UNIQUE (name, date, time) ON CONFLICT REPLACE"
+			"definition": "UNIQUE (names, date, time) ON CONFLICT REPLACE"
 		},
 	],
 }

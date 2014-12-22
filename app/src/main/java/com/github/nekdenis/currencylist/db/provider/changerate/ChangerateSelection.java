@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.github.nekdenis.currencylist.db.provider.base.AbstractSelection;
+import com.github.nekdenis.currencylist.db.provider.names.*;
 
 /**
  * Selection for the {@code changerate} table.
@@ -53,33 +54,63 @@ public class ChangerateSelection extends AbstractSelection<ChangerateSelection> 
     }
 
 
-    public ChangerateSelection path(String... value) {
-        addEquals(ChangerateColumns.PATH, value);
+    public ChangerateSelection names(String... value) {
+        addEquals(ChangerateColumns.NAMES, value);
         return this;
     }
 
-    public ChangerateSelection pathNot(String... value) {
-        addNotEquals(ChangerateColumns.PATH, value);
+    public ChangerateSelection namesNot(String... value) {
+        addNotEquals(ChangerateColumns.NAMES, value);
         return this;
     }
 
-    public ChangerateSelection pathLike(String... value) {
-        addLike(ChangerateColumns.PATH, value);
+    public ChangerateSelection namesLike(String... value) {
+        addLike(ChangerateColumns.NAMES, value);
         return this;
     }
 
-    public ChangerateSelection name(String... value) {
-        addEquals(ChangerateColumns.NAME, value);
+    public ChangerateSelection namesNames(String... value) {
+        addEquals(NamesColumns.NAMES, value);
         return this;
     }
 
-    public ChangerateSelection nameNot(String... value) {
-        addNotEquals(ChangerateColumns.NAME, value);
+    public ChangerateSelection namesNamesNot(String... value) {
+        addNotEquals(NamesColumns.NAMES, value);
         return this;
     }
 
-    public ChangerateSelection nameLike(String... value) {
-        addLike(ChangerateColumns.NAME, value);
+    public ChangerateSelection namesNamesLike(String... value) {
+        addLike(NamesColumns.NAMES, value);
+        return this;
+    }
+
+    public ChangerateSelection namesName(String... value) {
+        addEquals(NamesColumns.NAME, value);
+        return this;
+    }
+
+    public ChangerateSelection namesNameNot(String... value) {
+        addNotEquals(NamesColumns.NAME, value);
+        return this;
+    }
+
+    public ChangerateSelection namesNameLike(String... value) {
+        addLike(NamesColumns.NAME, value);
+        return this;
+    }
+
+    public ChangerateSelection title(String... value) {
+        addEquals(ChangerateColumns.TITLE, value);
+        return this;
+    }
+
+    public ChangerateSelection titleNot(String... value) {
+        addNotEquals(ChangerateColumns.TITLE, value);
+        return this;
+    }
+
+    public ChangerateSelection titleLike(String... value) {
+        addLike(ChangerateColumns.TITLE, value);
         return this;
     }
 

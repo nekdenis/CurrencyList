@@ -1,5 +1,10 @@
 package com.github.nekdenis.currencylist.db.provider;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -14,11 +19,7 @@ import android.util.Log;
 
 import com.github.nekdenis.currencylist.BuildConfig;
 import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import com.github.nekdenis.currencylist.db.provider.names.NamesColumns;
 
 public class Provider extends ContentProvider {
     private static final String TAG = Provider.class.getSimpleName();
@@ -37,6 +38,9 @@ public class Provider extends ContentProvider {
     private static final int URI_TYPE_CHANGERATE = 0;
     private static final int URI_TYPE_CHANGERATE_ID = 1;
 
+    private static final int URI_TYPE_NAMES = 2;
+    private static final int URI_TYPE_NAMES_ID = 3;
+
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -44,6 +48,8 @@ public class Provider extends ContentProvider {
     static {
         URI_MATCHER.addURI(AUTHORITY, ChangerateColumns.TABLE_NAME, URI_TYPE_CHANGERATE);
         URI_MATCHER.addURI(AUTHORITY, ChangerateColumns.TABLE_NAME + "/#", URI_TYPE_CHANGERATE_ID);
+        URI_MATCHER.addURI(AUTHORITY, NamesColumns.TABLE_NAME, URI_TYPE_NAMES);
+        URI_MATCHER.addURI(AUTHORITY, NamesColumns.TABLE_NAME + "/#", URI_TYPE_NAMES_ID);
     }
 
     protected MySQLiteOpenHelper mMySQLiteOpenHelper;
@@ -79,6 +85,11 @@ public class Provider extends ContentProvider {
                 return TYPE_CURSOR_DIR + ChangerateColumns.TABLE_NAME;
             case URI_TYPE_CHANGERATE_ID:
                 return TYPE_CURSOR_ITEM + ChangerateColumns.TABLE_NAME;
+
+            case URI_TYPE_NAMES:
+                return TYPE_CURSOR_DIR + NamesColumns.TABLE_NAME;
+            case URI_TYPE_NAMES_ID:
+                return TYPE_CURSOR_ITEM + NamesColumns.TABLE_NAME;
 
         }
         return null;
@@ -217,7 +228,17 @@ public class Provider extends ContentProvider {
             case URI_TYPE_CHANGERATE_ID:
                 res.table = ChangerateColumns.TABLE_NAME;
                 res.tablesWithJoins = ChangerateColumns.TABLE_NAME;
+                if (NamesColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + NamesColumns.TABLE_NAME + " AS " + ChangerateColumns.PREFIX_NAMES + " ON " + ChangerateColumns.TABLE_NAME + "." + ChangerateColumns.NAMES + "=" + ChangerateColumns.PREFIX_NAMES + "." + NamesColumns._ID;
+                }
                 res.orderBy = ChangerateColumns.DEFAULT_ORDER;
+                break;
+
+            case URI_TYPE_NAMES:
+            case URI_TYPE_NAMES_ID:
+                res.table = NamesColumns.TABLE_NAME;
+                res.tablesWithJoins = NamesColumns.TABLE_NAME;
+                res.orderBy = NamesColumns.DEFAULT_ORDER;
                 break;
 
             default:
@@ -226,6 +247,7 @@ public class Provider extends ContentProvider {
 
         switch (matchedId) {
             case URI_TYPE_CHANGERATE_ID:
+            case URI_TYPE_NAMES_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {

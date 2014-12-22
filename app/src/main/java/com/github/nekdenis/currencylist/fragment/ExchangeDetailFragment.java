@@ -120,7 +120,7 @@ public class ExchangeDetailFragment extends Fragment {
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             if (data != null && data.moveToFirst()) {
                 ChangerateCursor changerateCursor = new ChangerateCursor(data);
-                currencyName.setText(changerateCursor.getName());
+                currencyName.setText(changerateCursor.getTitle());
                 currencyCurrentValue.setText(changerateCursor.getRate());
                 if (data != null && data.moveToFirst()) {
                     if (shareActionProvider != null) {

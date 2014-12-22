@@ -12,6 +12,8 @@
 
     <!-- AddCurrencyDialog -->
     <string name="add_currency_button">Add</string>
+    <string name="add_currency_title">Select currencies</string>
+    <string name="add_currency_name">%1$s to %2$s</string>
 
     <string name="action_share">Share</string>
     <string name="action_add">Add currency</string>

@@ -1,0 +1,21 @@
+{
+	"fields": [
+		{
+			"name": "names",
+			"type": "String",
+			"nullable": false,
+		},
+		{
+			"name": "name",
+			"type": "String",
+			"nullable": false,
+		},
+	],
+
+	"constraints": [
+		{
+			"name": "unique_names",
+			"definition": "UNIQUE (names) ON CONFLICT REPLACE"
+		},
+	],
+}
