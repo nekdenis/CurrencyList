@@ -20,23 +20,24 @@ import android.widget.TextView;
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueSelection;
 import com.github.nekdenis.currencylist.util.Constants;
 
 public class ExchangeDetailFragment extends Fragment {
 
     private static final String TAG = ExchangeDetailFragment.class.getSimpleName();
-    private static final String EXTRA_EXCHANGE_ID = "EXTRA_EXCHANGE_ID";
+    private static final String EXTRA_EXCHANGE_PATH = "EXTRA_EXCHANGE_PATH";
 
     private TextView currencyName;
     private TextView currencyCurrentValue;
 
-    private String exchangeId;
+    private String exchangePath;
     private ShareActionProvider shareActionProvider;
 
-    public static ExchangeDetailFragment newInstance(String exchangeId) {
+    public static ExchangeDetailFragment newInstance(String exchangePath) {
         ExchangeDetailFragment fragment = new ExchangeDetailFragment();
         Bundle args = new Bundle();
-        args.putString(EXTRA_EXCHANGE_ID, exchangeId);
+        args.putString(EXTRA_EXCHANGE_PATH, exchangePath);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +51,7 @@ public class ExchangeDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-            exchangeId = args.getString(EXTRA_EXCHANGE_ID);
+            exchangePath = args.getString(EXTRA_EXCHANGE_PATH);
         }
         if (savedInstanceState != null) {
             //TODO:
@@ -106,12 +107,14 @@ public class ExchangeDetailFragment extends Fragment {
     LoaderManager.LoaderCallbacks<Cursor> changeRateCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            ExchangevalueSelection selection = new ExchangevalueSelection();
+            selection.pathval(exchangePath);
             return new CursorLoader(
                     getActivity(),
                     ExchangevalueColumns.CONTENT_URI,
                     null,
-                    null,
-                    null,
+                    selection.sel(),
+                    selection.args(),
                     null
             );
         }

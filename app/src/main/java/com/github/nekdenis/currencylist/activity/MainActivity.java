@@ -34,26 +34,26 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
 
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private boolean mTwoPane;
+    private boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.rates_detail_container) != null) {
-            mTwoPane = true;
+            twoPane = true;
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.rates_detail_container, new ExchangeDetailFragment())
                         .commit();
             }
         } else {
-            mTwoPane = false;
+            twoPane = false;
         }
 
-        RatesFragment forecastFragment = ((RatesFragment) getSupportFragmentManager()
+        RatesFragment ratesFragment = ((RatesFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_rates));
-//        forecastFragment.setUseTodayLayout(!mTwoPane);
+        ratesFragment.setUseTodayLayout(!twoPane);
 
         initSync();
 
@@ -85,20 +85,16 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
 
 
     @Override
-    public void onItemSelected(String date) {
-        if (mTwoPane) {
-            Bundle args = new Bundle();
-            args.putString(DetailActivity.DATE_KEY, date);
-
-            ExchangeDetailFragment fragment = new ExchangeDetailFragment();
-            fragment.setArguments(args);
+    public void onItemSelected(String exchangePath) {
+        if (twoPane) {
+            ExchangeDetailFragment fragment = ExchangeDetailFragment.newInstance(exchangePath);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.rates_detail_container, fragment)
                     .commit();
         } else {
             Intent intent = new Intent(this, DetailActivity.class)
-                    .putExtra(DetailActivity.DATE_KEY, date);
+                    .putExtra(DetailActivity.DATE_KEY, exchangePath);
             startActivity(intent);
         }
     }
