@@ -1,11 +1,11 @@
 {
 	"fields": [
 		{
-			"name": "names",
+			"name": "pathval",
 			"type": "String",
 			"nullable": false,
 			"foreignKey": {
-				"table": "Names",
+				"table": "Currencies",
 				"onDelete": "CASCADE"
 			}
 		},
@@ -44,7 +44,7 @@
 	"constraints": [
 		{
 			"name": "unique_time",
-			"definition": "UNIQUE (names, date, time) ON CONFLICT REPLACE"
+			"definition": "UNIQUE (pathval, date, time) ON CONFLICT REPLACE"
 		},
 	],
 }

@@ -11,8 +11,8 @@ import android.os.Build;
 import android.util.Log;
 
 import com.github.nekdenis.currencylist.BuildConfig;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
-import com.github.nekdenis.currencylist.db.provider.names.NamesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = MySQLiteOpenHelper.class.getSimpleName();
@@ -24,26 +24,26 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private final MySQLiteOpenHelperCallbacks mOpenHelperCallbacks;
 
     // @formatter:off
-    private static final String SQL_CREATE_TABLE_CHANGERATE = "CREATE TABLE IF NOT EXISTS "
-            + ChangerateColumns.TABLE_NAME + " ( "
-            + ChangerateColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ChangerateColumns.NAMES + " TEXT NOT NULL, "
-            + ChangerateColumns.TITLE + " TEXT NOT NULL, "
-            + ChangerateColumns.RATE + " TEXT NOT NULL, "
-            + ChangerateColumns.DATE + " TEXT NOT NULL, "
-            + ChangerateColumns.TIME + " TEXT NOT NULL, "
-            + ChangerateColumns.ASK + " TEXT NOT NULL, "
-            + ChangerateColumns.BID + " TEXT NOT NULL "
-            + ", CONSTRAINT fk_names FOREIGN KEY (" + ChangerateColumns.NAMES + ") REFERENCES names (_id) ON DELETE CASCADE"
-            + ", CONSTRAINT unique_time UNIQUE (names, date, time) ON CONFLICT REPLACE"
+    private static final String SQL_CREATE_TABLE_CURRENCIES = "CREATE TABLE IF NOT EXISTS "
+            + CurrenciesColumns.TABLE_NAME + " ( "
+            + CurrenciesColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + CurrenciesColumns.PATH + " TEXT NOT NULL, "
+            + CurrenciesColumns.NAME + " TEXT NOT NULL "
+            + ", CONSTRAINT unique_names UNIQUE (path) ON CONFLICT REPLACE"
             + " );";
 
-    private static final String SQL_CREATE_TABLE_NAMES = "CREATE TABLE IF NOT EXISTS "
-            + NamesColumns.TABLE_NAME + " ( "
-            + NamesColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NamesColumns.NAMES + " TEXT NOT NULL, "
-            + NamesColumns.NAME + " TEXT NOT NULL "
-            + ", CONSTRAINT unique_names UNIQUE (names) ON CONFLICT REPLACE"
+    private static final String SQL_CREATE_TABLE_EXCHANGEVALUE = "CREATE TABLE IF NOT EXISTS "
+            + ExchangevalueColumns.TABLE_NAME + " ( "
+            + ExchangevalueColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ExchangevalueColumns.PATHVAL + " TEXT NOT NULL, "
+            + ExchangevalueColumns.TITLE + " TEXT NOT NULL, "
+            + ExchangevalueColumns.RATE + " TEXT NOT NULL, "
+            + ExchangevalueColumns.DATE + " TEXT NOT NULL, "
+            + ExchangevalueColumns.TIME + " TEXT NOT NULL, "
+            + ExchangevalueColumns.ASK + " TEXT NOT NULL, "
+            + ExchangevalueColumns.BID + " TEXT NOT NULL "
+            + ", CONSTRAINT fk_pathval FOREIGN KEY (" + ExchangevalueColumns.PATHVAL + ") REFERENCES currencies (_id) ON DELETE CASCADE"
+            + ", CONSTRAINT unique_time UNIQUE (pathval, date, time) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on
@@ -102,8 +102,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
-        db.execSQL(SQL_CREATE_TABLE_CHANGERATE);
-        db.execSQL(SQL_CREATE_TABLE_NAMES);
+        db.execSQL(SQL_CREATE_TABLE_CURRENCIES);
+        db.execSQL(SQL_CREATE_TABLE_EXCHANGEVALUE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

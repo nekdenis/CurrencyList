@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.nekdenis.currencylist.R;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateCursor;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
 
 public class RateAdapter extends CursorAdapter {
 
@@ -49,9 +49,9 @@ public class RateAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
-        ChangerateCursor changerateCursor = new ChangerateCursor(cursor);
-        holder.nameA.setText(changerateCursor.getTitle());
-        holder.valueA.setText(changerateCursor.getRate());
+        ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(cursor);
+        holder.nameA.setText(exchangevalueCursor.getTitle());
+        holder.valueA.setText(exchangevalueCursor.getRate());
 
     }
 

@@ -18,8 +18,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.github.nekdenis.currencylist.BuildConfig;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
-import com.github.nekdenis.currencylist.db.provider.names.NamesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 
 public class Provider extends ContentProvider {
     private static final String TAG = Provider.class.getSimpleName();
@@ -35,21 +35,21 @@ public class Provider extends ContentProvider {
     public static final String QUERY_NOTIFY = "QUERY_NOTIFY";
     public static final String QUERY_GROUP_BY = "QUERY_GROUP_BY";
 
-    private static final int URI_TYPE_CHANGERATE = 0;
-    private static final int URI_TYPE_CHANGERATE_ID = 1;
+    private static final int URI_TYPE_CURRENCIES = 0;
+    private static final int URI_TYPE_CURRENCIES_ID = 1;
 
-    private static final int URI_TYPE_NAMES = 2;
-    private static final int URI_TYPE_NAMES_ID = 3;
+    private static final int URI_TYPE_EXCHANGEVALUE = 2;
+    private static final int URI_TYPE_EXCHANGEVALUE_ID = 3;
 
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        URI_MATCHER.addURI(AUTHORITY, ChangerateColumns.TABLE_NAME, URI_TYPE_CHANGERATE);
-        URI_MATCHER.addURI(AUTHORITY, ChangerateColumns.TABLE_NAME + "/#", URI_TYPE_CHANGERATE_ID);
-        URI_MATCHER.addURI(AUTHORITY, NamesColumns.TABLE_NAME, URI_TYPE_NAMES);
-        URI_MATCHER.addURI(AUTHORITY, NamesColumns.TABLE_NAME + "/#", URI_TYPE_NAMES_ID);
+        URI_MATCHER.addURI(AUTHORITY, CurrenciesColumns.TABLE_NAME, URI_TYPE_CURRENCIES);
+        URI_MATCHER.addURI(AUTHORITY, CurrenciesColumns.TABLE_NAME + "/#", URI_TYPE_CURRENCIES_ID);
+        URI_MATCHER.addURI(AUTHORITY, ExchangevalueColumns.TABLE_NAME, URI_TYPE_EXCHANGEVALUE);
+        URI_MATCHER.addURI(AUTHORITY, ExchangevalueColumns.TABLE_NAME + "/#", URI_TYPE_EXCHANGEVALUE_ID);
     }
 
     protected MySQLiteOpenHelper mMySQLiteOpenHelper;
@@ -81,15 +81,15 @@ public class Provider extends ContentProvider {
     public String getType(Uri uri) {
         int match = URI_MATCHER.match(uri);
         switch (match) {
-            case URI_TYPE_CHANGERATE:
-                return TYPE_CURSOR_DIR + ChangerateColumns.TABLE_NAME;
-            case URI_TYPE_CHANGERATE_ID:
-                return TYPE_CURSOR_ITEM + ChangerateColumns.TABLE_NAME;
+            case URI_TYPE_CURRENCIES:
+                return TYPE_CURSOR_DIR + CurrenciesColumns.TABLE_NAME;
+            case URI_TYPE_CURRENCIES_ID:
+                return TYPE_CURSOR_ITEM + CurrenciesColumns.TABLE_NAME;
 
-            case URI_TYPE_NAMES:
-                return TYPE_CURSOR_DIR + NamesColumns.TABLE_NAME;
-            case URI_TYPE_NAMES_ID:
-                return TYPE_CURSOR_ITEM + NamesColumns.TABLE_NAME;
+            case URI_TYPE_EXCHANGEVALUE:
+                return TYPE_CURSOR_DIR + ExchangevalueColumns.TABLE_NAME;
+            case URI_TYPE_EXCHANGEVALUE_ID:
+                return TYPE_CURSOR_ITEM + ExchangevalueColumns.TABLE_NAME;
 
         }
         return null;
@@ -224,21 +224,21 @@ public class Provider extends ContentProvider {
         String id = null;
         int matchedId = URI_MATCHER.match(uri);
         switch (matchedId) {
-            case URI_TYPE_CHANGERATE:
-            case URI_TYPE_CHANGERATE_ID:
-                res.table = ChangerateColumns.TABLE_NAME;
-                res.tablesWithJoins = ChangerateColumns.TABLE_NAME;
-                if (NamesColumns.hasColumns(projection)) {
-                    res.tablesWithJoins += " LEFT OUTER JOIN " + NamesColumns.TABLE_NAME + " AS " + ChangerateColumns.PREFIX_NAMES + " ON " + ChangerateColumns.TABLE_NAME + "." + ChangerateColumns.NAMES + "=" + ChangerateColumns.PREFIX_NAMES + "." + NamesColumns._ID;
-                }
-                res.orderBy = ChangerateColumns.DEFAULT_ORDER;
+            case URI_TYPE_CURRENCIES:
+            case URI_TYPE_CURRENCIES_ID:
+                res.table = CurrenciesColumns.TABLE_NAME;
+                res.tablesWithJoins = CurrenciesColumns.TABLE_NAME;
+                res.orderBy = CurrenciesColumns.DEFAULT_ORDER;
                 break;
 
-            case URI_TYPE_NAMES:
-            case URI_TYPE_NAMES_ID:
-                res.table = NamesColumns.TABLE_NAME;
-                res.tablesWithJoins = NamesColumns.TABLE_NAME;
-                res.orderBy = NamesColumns.DEFAULT_ORDER;
+            case URI_TYPE_EXCHANGEVALUE:
+            case URI_TYPE_EXCHANGEVALUE_ID:
+                res.table = ExchangevalueColumns.TABLE_NAME;
+                res.tablesWithJoins = ExchangevalueColumns.TABLE_NAME;
+                if (CurrenciesColumns.hasColumns(projection)) {
+                    res.tablesWithJoins += " LEFT OUTER JOIN " + CurrenciesColumns.TABLE_NAME + " AS " + ExchangevalueColumns.PREFIX_CURRENCIES + " ON " + ExchangevalueColumns.TABLE_NAME + "." + ExchangevalueColumns.PATHVAL + "=" + ExchangevalueColumns.PREFIX_CURRENCIES + "." + CurrenciesColumns._ID;
+                }
+                res.orderBy = ExchangevalueColumns.DEFAULT_ORDER;
                 break;
 
             default:
@@ -246,8 +246,8 @@ public class Provider extends ContentProvider {
         }
 
         switch (matchedId) {
-            case URI_TYPE_CHANGERATE_ID:
-            case URI_TYPE_NAMES_ID:
+            case URI_TYPE_CURRENCIES_ID:
+            case URI_TYPE_EXCHANGEVALUE_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {

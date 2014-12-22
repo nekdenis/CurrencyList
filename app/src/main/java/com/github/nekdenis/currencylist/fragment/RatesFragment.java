@@ -29,7 +29,7 @@ import android.widget.ListView;
 
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.adapter.RateAdapter;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 import com.github.nekdenis.currencylist.util.Constants;
 
@@ -111,7 +111,7 @@ public class RatesFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             return new CursorLoader(
                     getActivity(),
-                    ChangerateColumns.CONTENT_URI,
+                    ExchangevalueColumns.CONTENT_URI,
                     null,
                     null,
                     null,

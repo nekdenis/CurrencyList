@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.github.nekdenis.currencylist.R;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateContentValues;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueContentValues;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -75,13 +75,13 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
             JSONObject resultsJson = queryJson.optJSONObject("results");
             JSONArray rateArray = resultsJson.getJSONArray("rate");
 
-            List<ChangerateContentValues> ratesContentValues = new ArrayList<ChangerateContentValues>(rateArray.length());
+            List<ExchangevalueContentValues> exchangevalueContentValues = new ArrayList<ExchangevalueContentValues>(rateArray.length());
 
             for (int i = 0; i < rateArray.length(); i++) {
                 JSONObject rate = rateArray.getJSONObject(i);
 
-                ChangerateContentValues contentValues = new ChangerateContentValues();
-                contentValues.putNames(rate.optString("id"));
+                ExchangevalueContentValues contentValues = new ExchangevalueContentValues();
+                contentValues.putPathval(rate.optString("id"));
                 contentValues.putTitle(rate.optString("Name"));
                 contentValues.putRate(rate.optString("Rate"));
                 contentValues.putDate(rate.optString("Date"));
@@ -89,19 +89,19 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
                 contentValues.putAsk(rate.optString("Ask"));
                 contentValues.putBid(rate.optString("Bid"));
 
-                ratesContentValues.add(contentValues);
+                exchangevalueContentValues.add(contentValues);
             }
-            if (ratesContentValues.size() > 0) {
-                List<ContentValues> contentValuesList = new ArrayList<ContentValues>(ratesContentValues.size());
-                for (ChangerateContentValues contentValues : ratesContentValues) {
+            if (exchangevalueContentValues.size() > 0) {
+                List<ContentValues> contentValuesList = new ArrayList<ContentValues>(exchangevalueContentValues.size());
+                for (ExchangevalueContentValues contentValues : exchangevalueContentValues) {
                     contentValuesList.add(contentValues.values());
                 }
                 ContentValues[] valuesArray = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
-                getContext().getContentResolver().bulkInsert(ChangerateColumns.CONTENT_URI, valuesArray);
+                getContext().getContentResolver().bulkInsert(ExchangevalueColumns.CONTENT_URI, valuesArray);
 
                 notifyUser();
             }
-            Log.d(TAG, "Updated: " + ratesContentValues.size() + " rates inserted");
+            Log.d(TAG, "Updated: " + exchangevalueContentValues.size() + " rates inserted");
 
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage(), e);

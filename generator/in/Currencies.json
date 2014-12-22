@@ -1,7 +1,7 @@
 {
 	"fields": [
 		{
-			"name": "names",
+			"name": "path",
 			"type": "String",
 			"nullable": false,
 		},
@@ -15,7 +15,7 @@
 	"constraints": [
 		{
 			"name": "unique_names",
-			"definition": "UNIQUE (names) ON CONFLICT REPLACE"
+			"definition": "UNIQUE (path) ON CONFLICT REPLACE"
 		},
 	],
 }

@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.nekdenis.currencylist.R;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateCursor;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
 import com.github.nekdenis.currencylist.util.Constants;
 
 public class ExchangeDetailFragment extends Fragment {
@@ -108,7 +108,7 @@ public class ExchangeDetailFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             return new CursorLoader(
                     getActivity(),
-                    ChangerateColumns.CONTENT_URI,
+                    ExchangevalueColumns.CONTENT_URI,
                     null,
                     null,
                     null,
@@ -119,9 +119,9 @@ public class ExchangeDetailFragment extends Fragment {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             if (data != null && data.moveToFirst()) {
-                ChangerateCursor changerateCursor = new ChangerateCursor(data);
-                currencyName.setText(changerateCursor.getTitle());
-                currencyCurrentValue.setText(changerateCursor.getRate());
+                ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(data);
+                currencyName.setText(exchangevalueCursor.getTitle());
+                currencyCurrentValue.setText(exchangevalueCursor.getRate());
                 if (data != null && data.moveToFirst()) {
                     if (shareActionProvider != null) {
                         shareActionProvider.setShareIntent(createShareForecastIntent());

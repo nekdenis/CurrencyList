@@ -1,4 +1,4 @@
-package com.github.nekdenis.currencylist.db.provider.changerate;
+package com.github.nekdenis.currencylist.db.provider.exchangevalue;
 
 import java.util.Date;
 
@@ -8,12 +8,12 @@ import android.net.Uri;
 import com.github.nekdenis.currencylist.db.provider.base.AbstractContentValues;
 
 /**
- * Content values wrapper for the {@code changerate} table.
+ * Content values wrapper for the {@code exchangevalue} table.
  */
-public class ChangerateContentValues extends AbstractContentValues {
+public class ExchangevalueContentValues extends AbstractContentValues {
     @Override
     public Uri uri() {
-        return ChangerateColumns.CONTENT_URI;
+        return ExchangevalueColumns.CONTENT_URI;
     }
 
     /**
@@ -22,61 +22,61 @@ public class ChangerateContentValues extends AbstractContentValues {
      * @param contentResolver The content resolver to use.
      * @param where The selection to use (can be {@code null}).
      */
-    public int update(ContentResolver contentResolver, ChangerateSelection where) {
+    public int update(ContentResolver contentResolver, ExchangevalueSelection where) {
         return contentResolver.update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
-    public ChangerateContentValues putNames(String value) {
-        if (value == null) throw new IllegalArgumentException("value for names must not be null");
-        mContentValues.put(ChangerateColumns.NAMES, value);
+    public ExchangevalueContentValues putPathval(String value) {
+        if (value == null) throw new IllegalArgumentException("value for pathval must not be null");
+        mContentValues.put(ExchangevalueColumns.PATHVAL, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putTitle(String value) {
+    public ExchangevalueContentValues putTitle(String value) {
         if (value == null) throw new IllegalArgumentException("value for title must not be null");
-        mContentValues.put(ChangerateColumns.TITLE, value);
+        mContentValues.put(ExchangevalueColumns.TITLE, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putRate(String value) {
+    public ExchangevalueContentValues putRate(String value) {
         if (value == null) throw new IllegalArgumentException("value for rate must not be null");
-        mContentValues.put(ChangerateColumns.RATE, value);
+        mContentValues.put(ExchangevalueColumns.RATE, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putDate(String value) {
+    public ExchangevalueContentValues putDate(String value) {
         if (value == null) throw new IllegalArgumentException("value for date must not be null");
-        mContentValues.put(ChangerateColumns.DATE, value);
+        mContentValues.put(ExchangevalueColumns.DATE, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putTime(String value) {
+    public ExchangevalueContentValues putTime(String value) {
         if (value == null) throw new IllegalArgumentException("value for time must not be null");
-        mContentValues.put(ChangerateColumns.TIME, value);
+        mContentValues.put(ExchangevalueColumns.TIME, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putAsk(String value) {
+    public ExchangevalueContentValues putAsk(String value) {
         if (value == null) throw new IllegalArgumentException("value for ask must not be null");
-        mContentValues.put(ChangerateColumns.ASK, value);
+        mContentValues.put(ExchangevalueColumns.ASK, value);
         return this;
     }
 
 
 
-    public ChangerateContentValues putBid(String value) {
+    public ExchangevalueContentValues putBid(String value) {
         if (value == null) throw new IllegalArgumentException("value for bid must not be null");
-        mContentValues.put(ChangerateColumns.BID, value);
+        mContentValues.put(ExchangevalueColumns.BID, value);
         return this;
     }
 

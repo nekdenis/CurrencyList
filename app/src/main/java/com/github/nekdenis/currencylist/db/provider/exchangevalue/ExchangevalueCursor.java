@@ -1,35 +1,35 @@
-package com.github.nekdenis.currencylist.db.provider.changerate;
+package com.github.nekdenis.currencylist.db.provider.exchangevalue;
 
 import java.util.Date;
 
 import android.database.Cursor;
 
 import com.github.nekdenis.currencylist.db.provider.base.AbstractCursor;
-import com.github.nekdenis.currencylist.db.provider.names.*;
+import com.github.nekdenis.currencylist.db.provider.currencies.*;
 
 /**
- * Cursor wrapper for the {@code changerate} table.
+ * Cursor wrapper for the {@code exchangevalue} table.
  */
-public class ChangerateCursor extends AbstractCursor {
-    public ChangerateCursor(Cursor cursor) {
+public class ExchangevalueCursor extends AbstractCursor {
+    public ExchangevalueCursor(Cursor cursor) {
         super(cursor);
     }
 
     /**
-     * Get the {@code names} value.
+     * Get the {@code pathval} value.
      * Cannot be {@code null}.
      */
-    public String getNames() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.NAMES);
+    public String getPathval() {
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.PATHVAL);
         return getString(index);
     }
 
     /**
-     * Get the {@code names} value.
+     * Get the {@code path} value.
      * Cannot be {@code null}.
      */
-    public String getNamesNames() {
-        Integer index = getCachedColumnIndexOrThrow(NamesColumns.NAMES);
+    public String getCurrenciesPath() {
+        Integer index = getCachedColumnIndexOrThrow(CurrenciesColumns.PATH);
         return getString(index);
     }
 
@@ -37,8 +37,8 @@ public class ChangerateCursor extends AbstractCursor {
      * Get the {@code name} value.
      * Cannot be {@code null}.
      */
-    public String getNamesName() {
-        Integer index = getCachedColumnIndexOrThrow(NamesColumns.NAME);
+    public String getCurrenciesName() {
+        Integer index = getCachedColumnIndexOrThrow(CurrenciesColumns.NAME);
         return getString(index);
     }
 
@@ -47,7 +47,7 @@ public class ChangerateCursor extends AbstractCursor {
      * Cannot be {@code null}.
      */
     public String getTitle() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.TITLE);
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.TITLE);
         return getString(index);
     }
 
@@ -56,7 +56,7 @@ public class ChangerateCursor extends AbstractCursor {
      * Cannot be {@code null}.
      */
     public String getRate() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.RATE);
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.RATE);
         return getString(index);
     }
 
@@ -65,7 +65,7 @@ public class ChangerateCursor extends AbstractCursor {
      * Cannot be {@code null}.
      */
     public String getDate() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.DATE);
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.DATE);
         return getString(index);
     }
 
@@ -74,7 +74,7 @@ public class ChangerateCursor extends AbstractCursor {
      * Cannot be {@code null}.
      */
     public String getTime() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.TIME);
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.TIME);
         return getString(index);
     }
 
@@ -83,7 +83,7 @@ public class ChangerateCursor extends AbstractCursor {
      * Cannot be {@code null}.
      */
     public String getAsk() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.ASK);
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.ASK);
         return getString(index);
     }
 
@@ -92,7 +92,7 @@ public class ChangerateCursor extends AbstractCursor {
      * Cannot be {@code null}.
      */
     public String getBid() {
-        Integer index = getCachedColumnIndexOrThrow(ChangerateColumns.BID);
+        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.BID);
         return getString(index);
     }
 }

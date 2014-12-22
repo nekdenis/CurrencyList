@@ -1,17 +1,17 @@
-package com.github.nekdenis.currencylist.db.provider.names;
+package com.github.nekdenis.currencylist.db.provider.currencies;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.github.nekdenis.currencylist.db.provider.Provider;
-import com.github.nekdenis.currencylist.db.provider.changerate.ChangerateColumns;
-import com.github.nekdenis.currencylist.db.provider.names.NamesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 
 /**
- * Columns for the {@code names} table.
+ * Columns for the {@code currencies} table.
  */
-public class NamesColumns implements BaseColumns {
-    public static final String TABLE_NAME = "names";
+public class CurrenciesColumns implements BaseColumns {
+    public static final String TABLE_NAME = "currencies";
     public static final Uri CONTENT_URI = Uri.parse(Provider.CONTENT_URI_BASE + "/" + TABLE_NAME);
 
     /**
@@ -19,7 +19,7 @@ public class NamesColumns implements BaseColumns {
      */
     public static final String _ID = new String(BaseColumns._ID);
 
-    public static final String NAMES = "names__names";
+    public static final String PATH = "path";
 
     public static final String NAME = "name";
 
@@ -29,7 +29,7 @@ public class NamesColumns implements BaseColumns {
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
-            NAMES,
+            PATH,
             NAME
     };
     // @formatter:on
@@ -37,7 +37,7 @@ public class NamesColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
-            if (c == NAMES || c.contains("." + NAMES)) return true;
+            if (c == PATH || c.contains("." + PATH)) return true;
             if (c == NAME || c.contains("." + NAME)) return true;
         }
         return false;

@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.nekdenis.currencylist.R;
-import com.github.nekdenis.currencylist.db.provider.names.NamesContentValues;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesContentValues;
 import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
 import com.github.nekdenis.currencylist.fragment.RatesFragment;
 import com.github.nekdenis.currencylist.fragment.dialog.AddCurrencyDialog;
@@ -99,9 +99,9 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
     private AddCurrencyDialog.OnDialogClickListener onAddCurencyClickListener = new AddCurrencyDialog.OnDialogClickListener() {
         @Override
         public void onAddClick(String from, String to, Dialog dialog) {
-            NamesContentValues namesContentValues = new NamesContentValues();
-            namesContentValues.putNames(from + to);
-            namesContentValues.putName(getString(R.string.add_currency_name, from, to));
+            CurrenciesContentValues currenciesContentValues = new CurrenciesContentValues();
+            currenciesContentValues.putPath(from + to);
+            currenciesContentValues.putName(getString(R.string.add_currency_name, from, to));
         }
     };
 }
