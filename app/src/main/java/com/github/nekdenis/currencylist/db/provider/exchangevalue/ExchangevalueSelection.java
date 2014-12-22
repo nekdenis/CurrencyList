@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.github.nekdenis.currencylist.db.provider.base.AbstractSelection;
-import com.github.nekdenis.currencylist.db.provider.currencies.*;
 
 /**
  * Selection for the {@code exchangevalue} table.
@@ -66,36 +65,6 @@ public class ExchangevalueSelection extends AbstractSelection<ExchangevalueSelec
 
     public ExchangevalueSelection pathvalLike(String... value) {
         addLike(ExchangevalueColumns.PATHVAL, value);
-        return this;
-    }
-
-    public ExchangevalueSelection currenciesPath(String... value) {
-        addEquals(CurrenciesColumns.PATH, value);
-        return this;
-    }
-
-    public ExchangevalueSelection currenciesPathNot(String... value) {
-        addNotEquals(CurrenciesColumns.PATH, value);
-        return this;
-    }
-
-    public ExchangevalueSelection currenciesPathLike(String... value) {
-        addLike(CurrenciesColumns.PATH, value);
-        return this;
-    }
-
-    public ExchangevalueSelection currenciesName(String... value) {
-        addEquals(CurrenciesColumns.NAME, value);
-        return this;
-    }
-
-    public ExchangevalueSelection currenciesNameNot(String... value) {
-        addNotEquals(CurrenciesColumns.NAME, value);
-        return this;
-    }
-
-    public ExchangevalueSelection currenciesNameLike(String... value) {
-        addLike(CurrenciesColumns.NAME, value);
         return this;
     }
 

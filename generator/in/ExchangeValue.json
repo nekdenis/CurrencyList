@@ -4,10 +4,6 @@
 			"name": "pathval",
 			"type": "String",
 			"nullable": false,
-			"foreignKey": {
-				"table": "Currencies",
-				"onDelete": "CASCADE"
-			}
 		},
 		{
 			"name": "title",
@@ -44,7 +40,11 @@
 	"constraints": [
 		{
 			"name": "unique_time",
-			"definition": "UNIQUE (pathval, date, time) ON CONFLICT REPLACE"
+			"definition": "UNIQUE (pathval, date) ON CONFLICT REPLACE"
 		},
+		{
+            "name": "fk_path",
+            "definition": "foreign key (pathval) references currencies (path) on delete cascade",
+        },
 	],
 }

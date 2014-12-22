@@ -42,8 +42,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             + ExchangevalueColumns.TIME + " TEXT NOT NULL, "
             + ExchangevalueColumns.ASK + " TEXT NOT NULL, "
             + ExchangevalueColumns.BID + " TEXT NOT NULL "
-            + ", CONSTRAINT fk_pathval FOREIGN KEY (" + ExchangevalueColumns.PATHVAL + ") REFERENCES currencies (_id) ON DELETE CASCADE"
-            + ", CONSTRAINT unique_time UNIQUE (pathval, date, time) ON CONFLICT REPLACE"
+            + ", CONSTRAINT unique_time UNIQUE (pathval, date) ON CONFLICT REPLACE"
+            + ", CONSTRAINT fk_path foreign key (pathval) references currencies (path) on delete cascade"
             + " );";
 
     // @formatter:on

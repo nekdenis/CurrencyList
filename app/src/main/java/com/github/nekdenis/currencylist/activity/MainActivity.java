@@ -55,10 +55,17 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
                 .findFragmentById(R.id.fragment_rates));
 //        forecastFragment.setUseTodayLayout(!mTwoPane);
 
-        CurrenciesSyncAdapter.initializeSyncAdapter(this);
+        initSync();
 
     }
 
+    private void initSync() {
+        CurrenciesSyncAdapter.initializeSyncAdapter(this);
+    }
+
+    private void reSync() {
+        CurrenciesSyncAdapter.syncImmediately(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,6 +109,8 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
             CurrenciesContentValues currenciesContentValues = new CurrenciesContentValues();
             currenciesContentValues.putPath(from + to);
             currenciesContentValues.putName(getString(R.string.add_currency_name, from, to));
+            currenciesContentValues.insert(getContentResolver());
+            reSync();
         }
     };
 }

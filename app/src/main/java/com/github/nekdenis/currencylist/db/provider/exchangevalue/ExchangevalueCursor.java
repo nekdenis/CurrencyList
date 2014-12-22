@@ -5,7 +5,6 @@ import java.util.Date;
 import android.database.Cursor;
 
 import com.github.nekdenis.currencylist.db.provider.base.AbstractCursor;
-import com.github.nekdenis.currencylist.db.provider.currencies.*;
 
 /**
  * Cursor wrapper for the {@code exchangevalue} table.
@@ -21,24 +20,6 @@ public class ExchangevalueCursor extends AbstractCursor {
      */
     public String getPathval() {
         Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.PATHVAL);
-        return getString(index);
-    }
-
-    /**
-     * Get the {@code path} value.
-     * Cannot be {@code null}.
-     */
-    public String getCurrenciesPath() {
-        Integer index = getCachedColumnIndexOrThrow(CurrenciesColumns.PATH);
-        return getString(index);
-    }
-
-    /**
-     * Get the {@code name} value.
-     * Cannot be {@code null}.
-     */
-    public String getCurrenciesName() {
-        Integer index = getCachedColumnIndexOrThrow(CurrenciesColumns.NAME);
         return getString(index);
     }
 

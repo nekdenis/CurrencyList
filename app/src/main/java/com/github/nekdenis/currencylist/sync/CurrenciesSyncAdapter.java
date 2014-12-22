@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.github.nekdenis.currencylist.R;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesCursor;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueContentValues;
 import com.squareup.okhttp.OkHttpClient;
@@ -55,7 +57,7 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         OkHttpClient client = new OkHttpClient();
 
 //        String url = WEBSERVICE_PREFIX + paramString;
-        String url = "https://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22USDRUB,EURRUB,RUBRUB,RUBEUR%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+        String url = "https://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22" + getCurrenciesString() + "%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
         Log.d(TAG, "request = " + url);
         Request request = new Request.Builder()
                 .url(url)
@@ -109,6 +111,17 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+    private String getCurrenciesString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        CurrenciesCursor currenciesCursor = new CurrenciesCursor(getContext().getContentResolver().query(CurrenciesColumns.CONTENT_URI, null, null, null, null));
+        for (currenciesCursor.moveToFirst(); !currenciesCursor.isAfterLast(); currenciesCursor.moveToNext()) {
+            stringBuilder.append(currenciesCursor.getPath());
+            if (!currenciesCursor.isLast()) {
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.toString();
+    }
 
     private void notifyUser() {
 //        Context context = getContext();

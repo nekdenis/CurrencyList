@@ -63,5 +63,4 @@ public class ExchangevalueColumns implements BaseColumns {
         return false;
     }
 
-    public static final String PREFIX_CURRENCIES = TABLE_NAME + "__" + CurrenciesColumns.TABLE_NAME;
 }

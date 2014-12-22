@@ -235,9 +235,6 @@ public class Provider extends ContentProvider {
             case URI_TYPE_EXCHANGEVALUE_ID:
                 res.table = ExchangevalueColumns.TABLE_NAME;
                 res.tablesWithJoins = ExchangevalueColumns.TABLE_NAME;
-                if (CurrenciesColumns.hasColumns(projection)) {
-                    res.tablesWithJoins += " LEFT OUTER JOIN " + CurrenciesColumns.TABLE_NAME + " AS " + ExchangevalueColumns.PREFIX_CURRENCIES + " ON " + ExchangevalueColumns.TABLE_NAME + "." + ExchangevalueColumns.PATHVAL + "=" + ExchangevalueColumns.PREFIX_CURRENCIES + "." + CurrenciesColumns._ID;
-                }
                 res.orderBy = ExchangevalueColumns.DEFAULT_ORDER;
                 break;
 
