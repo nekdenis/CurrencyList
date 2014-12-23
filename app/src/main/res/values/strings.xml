@@ -18,4 +18,7 @@
     <string name="action_share">Share</string>
     <string name="action_add">Add currency</string>
 
+    <!--ExchangeDetail -->
+    <string name="exchange_empty">Please add two or more currencies</string>
+
 </resources>

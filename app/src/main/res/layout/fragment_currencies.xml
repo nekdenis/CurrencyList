@@ -5,7 +5,7 @@
     tools:context="com.github.nekdenis.currencylist.fragmentFragment">
     <ListView
         style="@style/ForecastListStyle"
-        android:id="@+id/listview_forecast"
+        android:id="@+id/currencies_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null" />

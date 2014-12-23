@@ -23,13 +23,13 @@ import android.view.MenuItem;
 
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesContentValues;
+import com.github.nekdenis.currencylist.fragment.CurrenciesFragment;
 import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
-import com.github.nekdenis.currencylist.fragment.RatesFragment;
 import com.github.nekdenis.currencylist.fragment.dialog.AddCurrencyDialog;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 
 
-public class MainActivity extends ActionBarActivity implements RatesFragment.OnItemSelectedListener {
+public class MainActivity extends ActionBarActivity implements CurrenciesFragment.OnItemSelectedListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
@@ -39,21 +39,21 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (findViewById(R.id.rates_detail_container) != null) {
+        if (findViewById(R.id.exchange_detail_container) != null) {
             twoPane = true;
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.rates_detail_container, new ExchangeDetailFragment())
+                        .replace(R.id.exchange_detail_container, ExchangeDetailFragment.newInstance())
                         .commit();
             }
         } else {
             twoPane = false;
         }
 
-        RatesFragment ratesFragment = ((RatesFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_rates));
-        if (ratesFragment != null) {
-            ratesFragment.setUseTodayLayout(!twoPane);
+        CurrenciesFragment currenciesFragment = ((CurrenciesFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_currencies));
+        if (currenciesFragment != null) {
+            currenciesFragment.setUseTodayLayout(!twoPane);
         }
 
         initSync();
@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
             ExchangeDetailFragment fragment = ExchangeDetailFragment.newInstance(exchangePath);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.rates_detail_container, fragment)
+                    .replace(R.id.exchange_detail_container, fragment)
                     .commit();
         } else {
             DetailActivity.startActivity(this, exchangePath);

@@ -34,9 +34,9 @@ import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueC
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 import com.github.nekdenis.currencylist.util.Constants;
 
-public class RatesFragment extends Fragment {
+public class CurrenciesFragment extends Fragment {
 
-    public static final String TAG = RatesFragment.class.getSimpleName();
+    public static final String TAG = CurrenciesFragment.class.getSimpleName();
 
     private RateAdapter rateAdapter;
 
@@ -44,14 +44,14 @@ public class RatesFragment extends Fragment {
     private int mPosition = ListView.INVALID_POSITION;
     private boolean useTodayLayout;
 
-    public RatesFragment() {
+    public CurrenciesFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_currencies, container, false);
         initList(rootView);
 //        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
 //            mPosition = savedInstanceState.getInt(SELECTED_KEY);
@@ -64,7 +64,7 @@ public class RatesFragment extends Fragment {
 
     private void initList(View rootView) {
         rateAdapter = new RateAdapter(getActivity(), null, 0);
-        listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView = (ListView) rootView.findViewById(R.id.currencies_list);
         listView.setAdapter(rateAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

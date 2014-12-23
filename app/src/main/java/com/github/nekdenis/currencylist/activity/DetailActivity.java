@@ -42,7 +42,7 @@ public class DetailActivity extends ActionBarActivity {
             String exchangePath = getIntent().getStringExtra(EXTRA_EXCHANGE_PATH);
             ExchangeDetailFragment fragment = ExchangeDetailFragment.newInstance(exchangePath);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.rates_detail_container, fragment)
+                    .add(R.id.exchange_detail_container, fragment)
                     .commit();
         }
     }

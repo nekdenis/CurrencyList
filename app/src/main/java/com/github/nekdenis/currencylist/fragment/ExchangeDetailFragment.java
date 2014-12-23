@@ -9,6 +9,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,8 +31,9 @@ public class ExchangeDetailFragment extends Fragment {
 
     private TextView currencyName;
     private TextView currencyCurrentValue;
+    private View emptyView;
 
-    private String exchangePath;
+    private String exchangePath = "";
     private ShareActionProvider shareActionProvider;
 
     public static ExchangeDetailFragment newInstance(String exchangePath) {
@@ -39,6 +41,11 @@ public class ExchangeDetailFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(EXTRA_EXCHANGE_PATH, exchangePath);
         fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ExchangeDetailFragment newInstance() {
+        ExchangeDetailFragment fragment = new ExchangeDetailFragment();
         return fragment;
     }
 
@@ -69,6 +76,12 @@ public class ExchangeDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_exchange_detail, container, false);
         currencyName = (TextView) rootView.findViewById(R.id.exchange_detail_name);
         currencyCurrentValue = (TextView) rootView.findViewById(R.id.exchange_detail_current);
+        emptyView = rootView.findViewById(R.id.exchange_detail_container);
+        if (TextUtils.isEmpty(exchangePath)) {
+            emptyView.setVisibility(View.VISIBLE);
+            currencyName.setVisibility(View.GONE);
+            currencyCurrentValue.setVisibility(View.GONE);
+        }
         return rootView;
     }
 
