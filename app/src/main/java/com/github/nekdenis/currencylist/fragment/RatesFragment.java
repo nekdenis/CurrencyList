@@ -30,6 +30,7 @@ import android.widget.ListView;
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.adapter.RateAdapter;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
+import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 import com.github.nekdenis.currencylist.util.Constants;
 
@@ -69,11 +70,11 @@ public class RatesFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Cursor cursor = rateAdapter.getCursor();
-//                if (cursor != null && cursor.moveToPosition(position)) {
-//                    ((OnItemSelectedListener) getActivity())
-//                            .onItemSelected(cursor.getString(COL_WEATHER_DATE));
-//                }
+                ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(rateAdapter.getCursor());
+                if (exchangevalueCursor.moveToPosition(position)) {
+                    ((OnItemSelectedListener) getActivity())
+                            .onItemSelected(exchangevalueCursor.getPathval());
+                }
                 mPosition = position;
             }
         });
@@ -141,6 +142,6 @@ public class RatesFragment extends Fragment {
     }
 
     public interface OnItemSelectedListener {
-        public void onItemSelected(String date);
+        public void onItemSelected(String exchangePath);
     }
 }

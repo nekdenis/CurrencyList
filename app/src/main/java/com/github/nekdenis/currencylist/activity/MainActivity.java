@@ -16,7 +16,6 @@
 package com.github.nekdenis.currencylist.activity;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -53,7 +52,9 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
 
         RatesFragment ratesFragment = ((RatesFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_rates));
-        ratesFragment.setUseTodayLayout(!twoPane);
+        if (ratesFragment != null) {
+            ratesFragment.setUseTodayLayout(!twoPane);
+        }
 
         initSync();
 
@@ -93,9 +94,7 @@ public class MainActivity extends ActionBarActivity implements RatesFragment.OnI
                     .replace(R.id.rates_detail_container, fragment)
                     .commit();
         } else {
-            Intent intent = new Intent(this, DetailActivity.class)
-                    .putExtra(DetailActivity.DATE_KEY, exchangePath);
-            startActivity(intent);
+            DetailActivity.startActivity(this, exchangePath);
         }
     }
 
