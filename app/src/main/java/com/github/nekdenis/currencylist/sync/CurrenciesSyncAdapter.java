@@ -7,7 +7,9 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -205,18 +207,18 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
      * Helper method to schedule the sync adapter periodic execution
      */
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
-//        Account account = getSyncAccount(context);
-//        String authority = context.getString(R.string.content_authority);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            // we can enable inexact timers in our periodic sync
-//            SyncRequest request = new SyncRequest.Builder().
-//                    syncPeriodic(syncInterval, flexTime).
-//                    setSyncAdapter(account, authority).build();
-//            ContentResolver.requestSync(request);
-//        } else {
-//            ContentResolver.addPeriodicSync(account,
-//                    authority, new Bundle(), syncInterval);
-//        }
+        Account account = getSyncAccount(context);
+        String authority = context.getString(R.string.content_authority);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            SyncRequest request = new SyncRequest.Builder().
+                    syncPeriodic(syncInterval, flexTime).
+                    setExtras(new Bundle()).
+                    setSyncAdapter(account, authority).build();
+            ContentResolver.requestSync(request);
+        } else {
+            ContentResolver.addPeriodicSync(account,
+                    authority, new Bundle(), syncInterval);
+        }
     }
 
 
