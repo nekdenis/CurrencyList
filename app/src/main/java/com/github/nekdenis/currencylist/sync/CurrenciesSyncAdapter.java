@@ -42,10 +42,9 @@ import java.util.List;
 
 public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String TAG = CurrenciesSyncAdapter.class.getSimpleName();
-    public static final int SYNC_INTERVAL_MINUTES = 180;
+    public static final int SYNC_INTERVAL_MINUTES = 60;
     public static final int SYNC_INTERVAL = 60 * SYNC_INTERVAL_MINUTES;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 2 - 1;
     private static final int CURRENCY_NOTIFICATION_ID = 3004;
     public static final String WEBSERVICE_PREFIX = "https://query.yahooapis.com/v1/public/yql?";
 
