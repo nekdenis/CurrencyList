@@ -30,7 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,8 +92,7 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
                 contentValues.putPathval(rate.optString("id"));
                 contentValues.putTitle(rate.optString("Name"));
                 contentValues.putRate(rate.optString("Rate"));
-                contentValues.putDate(rate.optString("Date"));
-                contentValues.putTime(rate.optString("Time"));
+                parseDate(rate, contentValues);
                 contentValues.putAsk(rate.optString("Ask"));
                 contentValues.putBid(rate.optString("Bid"));
 
@@ -111,6 +114,26 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.e(TAG, e.getMessage(), e);
             e.printStackTrace();
         }
+    }
+
+    private void parseDate(JSONObject rate, ExchangevalueContentValues contentValues) {
+        //"Date":"12/25/2014","Time":"1:57am"
+        SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy KK:mmaa Z");
+        SimpleDateFormat timeParser = new SimpleDateFormat("");
+        String dateString = rate.optString("Date");
+        String timeString = rate.optString("Time");
+        try {
+            Date date = dateParser.parse(dateString + " " + timeString+" -0500");
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            c.set(Calendar.MILLISECOND, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String getCurrenciesString() {

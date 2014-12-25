@@ -20,6 +20,11 @@
 			"type": "String",
 			"nullable": false,
 		},
+        {
+            "name": "datehours",
+            "type": "long",
+            "nullable": false,
+        },
 		{
 			"name": "time",
 			"type": "String",
@@ -40,7 +45,7 @@
 	"constraints": [
 		{
 			"name": "unique_time",
-			"definition": "UNIQUE (pathval, date) ON CONFLICT REPLACE"
+			"definition": "UNIQUE (pathval, datehours) ON CONFLICT REPLACE"
 		},
 		{
             "name": "fk_path",
