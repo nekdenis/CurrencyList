@@ -10,28 +10,32 @@ import android.util.AttributeSet;
 import android.util.FloatMath;
 import android.view.View;
 
+import java.util.List;
+
 public class ColumnGraph extends View {
 
     private static final int MIN_LINES = 4;
     private static final int MAX_LINES = 7;
     private static final int[] DISTANCES = {1, 2, 5};
 
-    private float[] datapoints = new float[]{};
+    private Float[] datapoints = new Float[]{};
     private Paint paint = new Paint();
 
     public ColumnGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void setChartData(float[] datapoints) {
-        this.datapoints = datapoints.clone();
+    public void setChartData(List<Float> datapoints) {
+        this.datapoints = datapoints.toArray(new Float[datapoints.size()]);
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        drawBackground(canvas);
-        drawLineChart(canvas);
+        if (datapoints.length != 0) {
+            drawBackground(canvas);
+            drawLineChart(canvas);
+        }
     }
 
     private void drawBackground(Canvas canvas) {
@@ -82,7 +86,7 @@ public class ColumnGraph extends View {
         paint.setShadowLayer(0, 0, 0, 0);
     }
 
-    private float getMax(float[] array) {
+    private float getMax(Float[] array) {
         float max = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] > max) {

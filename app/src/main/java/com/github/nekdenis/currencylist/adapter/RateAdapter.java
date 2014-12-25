@@ -54,7 +54,7 @@ public class RateAdapter extends CursorAdapter {
         holder.nameA.setText(exchangevalueCursor.getTitle());
         holder.valueA.setText(exchangevalueCursor.getRate());
         if (holder.graph != null) {
-            holder.graph.setChartData(new float[]{10, 12, 7, 14, 15, 19, 13, 2, 10, 13, 13, 10, 15, 14});
+//            holder.graph.setChartData(new float[]{10, 12, 7, 14, 15, 19, 13, 2, 10, 13, 13, 10, 15, 14});
         }
     }
 

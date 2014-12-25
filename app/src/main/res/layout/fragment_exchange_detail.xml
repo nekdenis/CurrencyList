@@ -25,6 +25,13 @@
         tools:text="@string/exchange_current_label"
         android:textSize="24sp" />
 
+    <com.github.nekdenis.currencylist.view.ColumnGraph
+        android:id="@+id/exchange_detail_graph"
+        android:layout_below="@id/exchange_detail_current"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp" />
+
     <LinearLayout
         android:id="@+id/exchange_detail_empty_container"
         android:layout_width="match_parent"

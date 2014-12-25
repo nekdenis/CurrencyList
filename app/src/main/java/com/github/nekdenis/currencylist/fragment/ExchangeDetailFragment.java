@@ -23,6 +23,10 @@ import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueC
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueSelection;
 import com.github.nekdenis.currencylist.util.Constants;
+import com.github.nekdenis.currencylist.view.ColumnGraph;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExchangeDetailFragment extends Fragment {
 
@@ -32,6 +36,7 @@ public class ExchangeDetailFragment extends Fragment {
     private TextView currencyName;
     private TextView currencyCurrentValue;
     private View emptyView;
+    private ColumnGraph graphView;
 
     private String exchangePath = "";
     private ShareActionProvider shareActionProvider;
@@ -73,6 +78,7 @@ public class ExchangeDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_exchange_detail, container, false);
         currencyName = (TextView) rootView.findViewById(R.id.exchange_detail_name);
         currencyCurrentValue = (TextView) rootView.findViewById(R.id.exchange_detail_current);
+        graphView = (ColumnGraph) rootView.findViewById(R.id.exchange_detail_graph);
         emptyView = rootView.findViewById(R.id.exchange_detail_container);
         if (TextUtils.isEmpty(exchangePath)) {
             if (emptyView != null) {
@@ -116,6 +122,22 @@ public class ExchangeDetailFragment extends Fragment {
         getLoaderManager().initLoader(Constants.LOADER_ID_DETAIL, null, changeRateCallback);
     }
 
+    private void fillData(Cursor data) {
+        ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(data);
+        if (data != null && data.moveToFirst()) {
+            currencyName.setText(exchangevalueCursor.getTitle());
+            currencyCurrentValue.setText(exchangevalueCursor.getRate());
+            if (shareActionProvider != null) {
+                shareActionProvider.setShareIntent(createShareForecastIntent());
+            }
+            List<Float> rateValues = new ArrayList<Float>();
+            for (exchangevalueCursor.moveToFirst(); !exchangevalueCursor.isAfterLast(); exchangevalueCursor.moveToNext()) {
+                rateValues.add(Float.parseFloat(exchangevalueCursor.getRate()));
+            }
+            graphView.setChartData(rateValues);
+        }
+    }
+
     LoaderManager.LoaderCallbacks<Cursor> changeRateCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -134,14 +156,7 @@ public class ExchangeDetailFragment extends Fragment {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             if (data != null && data.moveToFirst()) {
-                ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(data);
-                currencyName.setText(exchangevalueCursor.getTitle());
-                currencyCurrentValue.setText(exchangevalueCursor.getRate());
-                if (data != null && data.moveToFirst()) {
-                    if (shareActionProvider != null) {
-                        shareActionProvider.setShareIntent(createShareForecastIntent());
-                    }
-                }
+                fillData(data);
             }
         }
 
