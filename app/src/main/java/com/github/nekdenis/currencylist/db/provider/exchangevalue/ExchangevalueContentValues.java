@@ -50,17 +50,15 @@ public class ExchangevalueContentValues extends AbstractContentValues {
 
 
 
-    public ExchangevalueContentValues putDate(String value) {
-        if (value == null) throw new IllegalArgumentException("value for date must not be null");
+    public ExchangevalueContentValues putDate(long value) {
         mContentValues.put(ExchangevalueColumns.DATE, value);
         return this;
     }
 
 
 
-    public ExchangevalueContentValues putTime(String value) {
-        if (value == null) throw new IllegalArgumentException("value for time must not be null");
-        mContentValues.put(ExchangevalueColumns.TIME, value);
+    public ExchangevalueContentValues putDatehours(long value) {
+        mContentValues.put(ExchangevalueColumns.DATEHOURS, value);
         return this;
     }
 

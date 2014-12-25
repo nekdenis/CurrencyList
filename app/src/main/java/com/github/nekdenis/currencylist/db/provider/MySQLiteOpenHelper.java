@@ -38,11 +38,11 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             + ExchangevalueColumns.PATHVAL + " TEXT NOT NULL, "
             + ExchangevalueColumns.TITLE + " TEXT NOT NULL, "
             + ExchangevalueColumns.RATE + " TEXT NOT NULL, "
-            + ExchangevalueColumns.DATE + " TEXT NOT NULL, "
-            + ExchangevalueColumns.TIME + " TEXT NOT NULL, "
+            + ExchangevalueColumns.DATE + " INTEGER NOT NULL, "
+            + ExchangevalueColumns.DATEHOURS + " INTEGER NOT NULL, "
             + ExchangevalueColumns.ASK + " TEXT NOT NULL, "
             + ExchangevalueColumns.BID + " TEXT NOT NULL "
-            + ", CONSTRAINT unique_time UNIQUE (pathval, date) ON CONFLICT REPLACE"
+            + ", CONSTRAINT unique_time UNIQUE (pathval, datehours) ON CONFLICT REPLACE"
             + ", CONSTRAINT fk_path foreign key (pathval) references currencies (path) on delete cascade"
             + " );";
 

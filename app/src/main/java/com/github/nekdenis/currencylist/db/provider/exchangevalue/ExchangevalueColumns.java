@@ -27,7 +27,7 @@ public class ExchangevalueColumns implements BaseColumns {
 
     public static final String DATE = "date";
 
-    public static final String TIME = "time";
+    public static final String DATEHOURS = "datehours";
 
     public static final String ASK = "ask";
 
@@ -43,7 +43,7 @@ public class ExchangevalueColumns implements BaseColumns {
             TITLE,
             RATE,
             DATE,
-            TIME,
+            DATEHOURS,
             ASK,
             BID
     };
@@ -56,7 +56,7 @@ public class ExchangevalueColumns implements BaseColumns {
             if (c == TITLE || c.contains("." + TITLE)) return true;
             if (c == RATE || c.contains("." + RATE)) return true;
             if (c == DATE || c.contains("." + DATE)) return true;
-            if (c == TIME || c.contains("." + TIME)) return true;
+            if (c == DATEHOURS || c.contains("." + DATEHOURS)) return true;
             if (c == ASK || c.contains("." + ASK)) return true;
             if (c == BID || c.contains("." + BID)) return true;
         }

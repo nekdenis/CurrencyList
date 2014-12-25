@@ -16,20 +16,15 @@
 			"nullable": false,
 		},
 		{
-			"name": "date",
-			"type": "String",
-			"nullable": false,
-		},
-        {
-            "name": "datehours",
-            "type": "long",
+            "name": "date",
+            "type": "Long",
             "nullable": false,
         },
-		{
-			"name": "time",
-			"type": "String",
-			"nullable": false,
-		},
+        {
+            "name": "datehours",
+            "type": "Long",
+            "nullable": false,
+        },
 		{
 			"name": "ask",
 			"type": "String",

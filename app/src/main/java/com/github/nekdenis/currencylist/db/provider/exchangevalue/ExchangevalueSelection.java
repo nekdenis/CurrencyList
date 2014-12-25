@@ -98,33 +98,63 @@ public class ExchangevalueSelection extends AbstractSelection<ExchangevalueSelec
         return this;
     }
 
-    public ExchangevalueSelection date(String... value) {
-        addEquals(ExchangevalueColumns.DATE, value);
+    public ExchangevalueSelection date(long... value) {
+        addEquals(ExchangevalueColumns.DATE, toObjectArray(value));
         return this;
     }
 
-    public ExchangevalueSelection dateNot(String... value) {
-        addNotEquals(ExchangevalueColumns.DATE, value);
+    public ExchangevalueSelection dateNot(long... value) {
+        addNotEquals(ExchangevalueColumns.DATE, toObjectArray(value));
         return this;
     }
 
-    public ExchangevalueSelection dateLike(String... value) {
-        addLike(ExchangevalueColumns.DATE, value);
+    public ExchangevalueSelection dateGt(long value) {
+        addGreaterThan(ExchangevalueColumns.DATE, value);
         return this;
     }
 
-    public ExchangevalueSelection time(String... value) {
-        addEquals(ExchangevalueColumns.TIME, value);
+    public ExchangevalueSelection dateGtEq(long value) {
+        addGreaterThanOrEquals(ExchangevalueColumns.DATE, value);
         return this;
     }
 
-    public ExchangevalueSelection timeNot(String... value) {
-        addNotEquals(ExchangevalueColumns.TIME, value);
+    public ExchangevalueSelection dateLt(long value) {
+        addLessThan(ExchangevalueColumns.DATE, value);
         return this;
     }
 
-    public ExchangevalueSelection timeLike(String... value) {
-        addLike(ExchangevalueColumns.TIME, value);
+    public ExchangevalueSelection dateLtEq(long value) {
+        addLessThanOrEquals(ExchangevalueColumns.DATE, value);
+        return this;
+    }
+
+    public ExchangevalueSelection datehours(long... value) {
+        addEquals(ExchangevalueColumns.DATEHOURS, toObjectArray(value));
+        return this;
+    }
+
+    public ExchangevalueSelection datehoursNot(long... value) {
+        addNotEquals(ExchangevalueColumns.DATEHOURS, toObjectArray(value));
+        return this;
+    }
+
+    public ExchangevalueSelection datehoursGt(long value) {
+        addGreaterThan(ExchangevalueColumns.DATEHOURS, value);
+        return this;
+    }
+
+    public ExchangevalueSelection datehoursGtEq(long value) {
+        addGreaterThanOrEquals(ExchangevalueColumns.DATEHOURS, value);
+        return this;
+    }
+
+    public ExchangevalueSelection datehoursLt(long value) {
+        addLessThan(ExchangevalueColumns.DATEHOURS, value);
+        return this;
+    }
+
+    public ExchangevalueSelection datehoursLtEq(long value) {
+        addLessThanOrEquals(ExchangevalueColumns.DATEHOURS, value);
         return this;
     }
 

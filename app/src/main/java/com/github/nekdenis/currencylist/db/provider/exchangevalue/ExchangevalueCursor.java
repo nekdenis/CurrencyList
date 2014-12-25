@@ -43,20 +43,16 @@ public class ExchangevalueCursor extends AbstractCursor {
 
     /**
      * Get the {@code date} value.
-     * Cannot be {@code null}.
      */
-    public String getDate() {
-        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.DATE);
-        return getString(index);
+    public long getDate() {
+        return getLongOrNull(ExchangevalueColumns.DATE);
     }
 
     /**
-     * Get the {@code time} value.
-     * Cannot be {@code null}.
+     * Get the {@code datehours} value.
      */
-    public String getTime() {
-        Integer index = getCachedColumnIndexOrThrow(ExchangevalueColumns.TIME);
-        return getString(index);
+    public long getDatehours() {
+        return getLongOrNull(ExchangevalueColumns.DATEHOURS);
     }
 
     /**

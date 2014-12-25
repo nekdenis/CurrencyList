@@ -75,7 +75,9 @@ public class ExchangeDetailFragment extends Fragment {
         currencyCurrentValue = (TextView) rootView.findViewById(R.id.exchange_detail_current);
         emptyView = rootView.findViewById(R.id.exchange_detail_container);
         if (TextUtils.isEmpty(exchangePath)) {
-            emptyView.setVisibility(View.VISIBLE);
+            if (emptyView != null) {
+                emptyView.setVisibility(View.VISIBLE);
+            }
             currencyName.setVisibility(View.GONE);
             currencyCurrentValue.setVisibility(View.GONE);
         }

@@ -11,6 +11,7 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.github.nekdenis.currencylist.R;
@@ -28,6 +29,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -54,6 +56,26 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(TAG, "Starting sync");
+
+        String currenciesString = getCurrenciesString();
+        if (!TextUtils.isEmpty(currenciesString)) {
+            String responseString = makeRequest(currenciesString);
+            try {
+                List<ExchangevalueContentValues> exchangevalueContentValues = new ArrayList<ExchangevalueContentValues>();
+                parseResponse(responseString, exchangevalueContentValues);
+                if (exchangevalueContentValues.size() > 0) {
+                    saveResponse(exchangevalueContentValues);
+                    notifyUser();
+                }
+                Log.d(TAG, "Updated: " + exchangevalueContentValues.size() + " rates inserted");
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String makeRequest(String currenciesString) {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         String requestParam = "select+*+from+yahoo.finance.xchange+where+pair+=+\"USDRUB,EURRUB,RUBRUB,RUBEUR\"";
         params.add(new BasicNameValuePair("q", requestParam));
@@ -63,7 +85,8 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         OkHttpClient client = new OkHttpClient();
 
 //        String url = WEBSERVICE_PREFIX + paramString;
-        String url = "https://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22" + getCurrenciesString() + "%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+
+        String url = "https://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22" + currenciesString + "%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
         Log.d(TAG, "request = " + url);
         Request request = new Request.Builder()
                 .url(url)
@@ -73,47 +96,51 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
             Response response = client.newCall(request).execute();
             responseString = response.body().string();
             Log.d(TAG, "response = " + responseString);
+            return responseString;
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
+            return "";
         }
+    }
 
-        try {
-            JSONObject responseJson = new JSONObject(responseString);
-            JSONObject queryJson = responseJson.optJSONObject("query");
-            JSONObject resultsJson = queryJson.optJSONObject("results");
-            JSONArray rateArray = resultsJson.getJSONArray("rate");
-
-            List<ExchangevalueContentValues> exchangevalueContentValues = new ArrayList<ExchangevalueContentValues>(rateArray.length());
-
+    private void parseResponse(String responseString, List<ExchangevalueContentValues> exchangevalueContentValues) throws JSONException {
+        JSONObject responseJson = new JSONObject(responseString);
+        JSONObject queryJson = responseJson.optJSONObject("query");
+        JSONObject resultsJson = queryJson.optJSONObject("results");
+        Object json = new JSONTokener(resultsJson.getString("rate")).nextValue();
+        if (json instanceof JSONObject) {
+            JSONObject rate = (JSONObject) json;
+            ExchangevalueContentValues contentValues = parseJson(rate);
+            exchangevalueContentValues.add(contentValues);
+        } else if (json instanceof JSONArray) {
+            JSONArray rateArray = (JSONArray) json;
             for (int i = 0; i < rateArray.length(); i++) {
                 JSONObject rate = rateArray.getJSONObject(i);
-
-                ExchangevalueContentValues contentValues = new ExchangevalueContentValues();
-                contentValues.putPathval(rate.optString("id"));
-                contentValues.putTitle(rate.optString("Name"));
-                contentValues.putRate(rate.optString("Rate"));
-                parseDate(rate, contentValues);
-                contentValues.putAsk(rate.optString("Ask"));
-                contentValues.putBid(rate.optString("Bid"));
-
+                ExchangevalueContentValues contentValues = parseJson(rate);
                 exchangevalueContentValues.add(contentValues);
             }
-            if (exchangevalueContentValues.size() > 0) {
-                List<ContentValues> contentValuesList = new ArrayList<ContentValues>(exchangevalueContentValues.size());
-                for (ExchangevalueContentValues contentValues : exchangevalueContentValues) {
-                    contentValuesList.add(contentValues.values());
-                }
-                ContentValues[] valuesArray = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
-                getContext().getContentResolver().bulkInsert(ExchangevalueColumns.CONTENT_URI, valuesArray);
-
-                notifyUser();
-            }
-            Log.d(TAG, "Updated: " + exchangevalueContentValues.size() + " rates inserted");
-
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage(), e);
-            e.printStackTrace();
         }
+    }
+
+    private void saveResponse(List<ExchangevalueContentValues> exchangevalueContentValues) {
+        List<ContentValues> contentValuesList = new ArrayList<ContentValues>(exchangevalueContentValues.size());
+        for (ExchangevalueContentValues contentValues : exchangevalueContentValues) {
+            contentValuesList.add(contentValues.values());
+        }
+        ContentValues[] valuesArray = contentValuesList.toArray(new ContentValues[contentValuesList.size()]);
+        getContext().getContentResolver().bulkInsert(ExchangevalueColumns.CONTENT_URI, valuesArray);
+    }
+
+
+    private ExchangevalueContentValues parseJson(JSONObject rate) {
+        ExchangevalueContentValues contentValues = new ExchangevalueContentValues();
+        contentValues.putPathval(rate.optString("id"));
+        contentValues.putTitle(rate.optString("Name"));
+        contentValues.putRate(rate.optString("Rate"));
+        parseDate(rate, contentValues);
+        contentValues.putAsk(rate.optString("Ask"));
+        contentValues.putBid(rate.optString("Bid"));
+        return contentValues;
     }
 
     private void parseDate(JSONObject rate, ExchangevalueContentValues contentValues) {
@@ -123,13 +150,14 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         String dateString = rate.optString("Date");
         String timeString = rate.optString("Time");
         try {
-            Date date = dateParser.parse(dateString + " " + timeString+" -0500");
+            Date date = dateParser.parse(dateString + " " + timeString + " -0500");
             Calendar c = Calendar.getInstance();
             c.setTime(date);
+            contentValues.putDate(c.getTimeInMillis());
             c.set(Calendar.MILLISECOND, 0);
             c.set(Calendar.SECOND, 0);
             c.set(Calendar.MINUTE, 0);
-            c.getTime();
+            contentValues.putDatehours(c.getTimeInMillis());
         } catch (ParseException e) {
             e.printStackTrace();
         }
