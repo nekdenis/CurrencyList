@@ -5,7 +5,7 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/exchange_detail_name"
+        android:id="@+id/currency_path"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -15,22 +15,21 @@
 
 
     <TextView
-        android:id="@+id/exchange_detail_current"
+        android:id="@+id/currency_current_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:layout_below="@id/exchange_detail_name"
-        android:gravity="start"
-        tools:text="@string/exchange_current_label"
-        android:textSize="24sp" />
+        android:layout_below="@id/currency_path"
+        tools:text="32"
+        android:textSize="28sp" />
 
     <com.github.nekdenis.currencylist.view.ColumnGraph
-        android:id="@+id/exchange_detail_graph"
+        android:id="@+id/currency_graph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@id/exchange_detail_name"
+        android:layout_alignTop="@id/currency_path"
         android:layout_marginLeft="4dp"
-        android:layout_alignBottom="@id/exchange_detail_current"
-        android:layout_toRightOf="@id/exchange_detail_current" />
+        android:layout_alignBottom="@id/currency_current_rate"
+        android:layout_toRightOf="@id/currency_path" />
 
 </RelativeLayout>

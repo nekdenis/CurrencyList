@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/rate_a_name"
+        android:id="@+id/currency_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -16,11 +16,11 @@
 
 
     <TextView
-        android:id="@+id/rate_a_current"
+        android:id="@+id/currency_current_rate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:layout_below="@id/rate_a_name"
+        android:layout_below="@id/currency_path"
         tools:text="32"
         android:textSize="24sp" />
 </RelativeLayout>

@@ -78,9 +78,9 @@ public class RateAdapter extends CursorAdapter {
         private final ColumnGraph graph;
 
         public ViewHolder(View view) {
-            nameA = (TextView) view.findViewById(R.id.rate_a_name);
-            valueA = (TextView) view.findViewById(R.id.rate_a_current);
-            graph = (ColumnGraph) view.findViewById(R.id.exchange_detail_graph);
+            graph = (ColumnGraph) view.findViewById(R.id.currency_graph);
+            nameA = (TextView) view.findViewById(R.id.currency_path);
+            valueA = (TextView) view.findViewById(R.id.currency_current_rate);
         }
     }
 }

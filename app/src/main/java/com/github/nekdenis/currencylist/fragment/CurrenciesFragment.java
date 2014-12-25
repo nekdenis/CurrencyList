@@ -93,9 +93,7 @@ public class CurrenciesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if (mLocation != null && !mLocation.equals(Utility.getPreferredLocation(getActivity()))) {
         getLoaderManager().restartLoader(Constants.LOADER_ID_RATES, null, ratesCallback);
-//        }
     }
 
     @Override

@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
 
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private boolean twoPane;
+    private boolean twoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

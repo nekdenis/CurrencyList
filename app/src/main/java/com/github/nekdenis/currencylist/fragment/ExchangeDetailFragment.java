@@ -49,14 +49,11 @@ public class ExchangeDetailFragment extends Fragment {
         return fragment;
     }
 
-    public ExchangeDetailFragment() {
-        setHasOptionsMenu(true);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
+        setHasOptionsMenu(true);
         if (args != null) {
             exchangePath = args.getString(EXTRA_EXCHANGE_PATH);
         }
