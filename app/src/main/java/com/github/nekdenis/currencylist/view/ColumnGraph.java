@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.util.FloatMath;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ColumnGraph extends View {
@@ -18,35 +20,44 @@ public class ColumnGraph extends View {
     private static final int MAX_LINES = 7;
     private static final int[] DISTANCES = {1, 2, 5};
 
-    private Float[] datapoints = new Float[]{};
+    private List<Float> datapoints = new ArrayList<Float>();
     private Paint paint = new Paint();
+    private Paint textPaint = new Paint();
+    private float textLenght;
 
     public ColumnGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     public void setChartData(List<Float> datapoints) {
-        this.datapoints = datapoints.toArray(new Float[datapoints.size()]);
+        this.datapoints.clear();
+        this.datapoints.addAll(datapoints);
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (datapoints.length != 0) {
+        if (datapoints.size() != 0) {
             drawBackground(canvas);
             drawLineChart(canvas);
         }
     }
 
     private void drawBackground(Canvas canvas) {
-        float maxValue = getMax(datapoints);
+        float maxValue = getMax();
         int range = getLineDistance(maxValue);
 
         paint.setStyle(Style.STROKE);
         paint.setColor(Color.GRAY);
+        textPaint.setStyle(Style.STROKE);
+        textPaint.setColor(Color.GRAY);
+        textPaint.setTextSize(22);
+        textPaint.setAntiAlias(true);
+        textLenght = textPaint.measureText(String.valueOf(maxValue));
         for (int y = 0; y < maxValue; y += range) {
             final float yPos = getYPos(y);
-            canvas.drawLine(0, yPos, getWidth(), yPos, paint);
+            canvas.drawLine(textLenght + 4, yPos, getWidth(), yPos, paint);
+            canvas.drawText(String.valueOf(y), 0, yPos, textPaint);
         }
     }
 
@@ -72,9 +83,9 @@ public class ColumnGraph extends View {
 
     private void drawLineChart(Canvas canvas) {
         Path path = new Path();
-        path.moveTo(getXPos(0), getYPos(datapoints[0]));
-        for (int i = 1; i < datapoints.length; i++) {
-            path.lineTo(getXPos(i), getYPos(datapoints[i]));
+        path.moveTo(getXPos(0), getYPos(datapoints.get(0)));
+        for (int i = 1; i < datapoints.size(); i++) {
+            path.lineTo(getXPos(i), getYPos(datapoints.get(i)));
         }
 
         paint.setStyle(Style.STROKE);
@@ -86,42 +97,25 @@ public class ColumnGraph extends View {
         paint.setShadowLayer(0, 0, 0, 0);
     }
 
-    private float getMax(Float[] array) {
-        float max = array[0];
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] > max) {
-                max = array[i];
-            }
-        }
-        return max;
+    private float getMax() {
+        return Collections.max(datapoints);
     }
 
     private float getYPos(float value) {
         float height = getHeight() - getPaddingTop() - getPaddingBottom();
-        float maxValue = getMax(datapoints);
-
-        // scale it to the view size
+        float maxValue = getMax();
         value = (value / maxValue) * height;
-
-        // invert it so that higher values have lower y
         value = height - value;
-
-        // offset it to adjust for padding
         value += getPaddingTop();
-
         return value;
     }
 
     private float getXPos(float value) {
-        float width = getWidth() - getPaddingLeft() - getPaddingRight();
-        float maxValue = datapoints.length - 1;
-
-        // scale it to the view size
+        float width = getWidth() - getPaddingLeft() - getPaddingRight() - textLenght;
+        float maxValue = datapoints.size() - 1;
         value = (value / maxValue) * width;
-
-        // offset it to adjust for padding
         value += getPaddingLeft();
-
+        value += textLenght;
         return value;
     }
 
