@@ -14,8 +14,7 @@
     </style>
 
     <style name="ActionBar.Solid.Sunshine.NoTitle" parent="@style/ActionBar.Solid.Sunshine">
-        <item name="displayOptions">useLogo|showHome</item>
-        <item name="logo">@drawable/abc_ic_clear</item>
+        <item name="displayOptions">showHome</item>
     </style>
 
     <!-- Style for forecast listview -->
