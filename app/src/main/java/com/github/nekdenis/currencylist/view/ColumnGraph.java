@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -16,14 +15,12 @@ import java.util.List;
 
 public class ColumnGraph extends View {
 
-    private static final int MIN_LINES = 4;
-    private static final int MAX_LINES = 7;
-    private static final int[] DISTANCES = {1, 2, 5};
-
+    public static final int LINES_COUNT = 5;
     private List<Float> datapoints = new ArrayList<Float>();
     private Paint paint = new Paint();
     private Paint textPaint = new Paint();
     private float textLenght;
+    private int extraPadding;
 
     public ColumnGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,7 +42,8 @@ public class ColumnGraph extends View {
 
     private void drawBackground(Canvas canvas) {
         float maxValue = getMax();
-        int range = getLineDistance(maxValue);
+        float minValue = getMin();
+        float range = getLineDistance(maxValue, minValue);
 
         paint.setStyle(Style.STROKE);
         paint.setColor(Color.GRAY);
@@ -54,31 +52,18 @@ public class ColumnGraph extends View {
         textPaint.setTextSize(22);
         textPaint.setAntiAlias(true);
         textLenght = textPaint.measureText(String.valueOf(maxValue));
-        for (int y = 0; y < maxValue; y += range) {
+        for (float y = minValue; y < maxValue; y += range) {
             final float yPos = getYPos(y);
             canvas.drawLine(textLenght + 4, yPos, getWidth(), yPos, paint);
             canvas.drawText(String.valueOf(y), 0, yPos, textPaint);
         }
     }
 
-    private int getLineDistance(float maxValue) {
-        int distance;
-        int distanceIndex = 0;
-        int distanceMultiplier = 1;
-        int numberOfLines = MIN_LINES;
-
-        do {
-            distance = DISTANCES[distanceIndex] * distanceMultiplier;
-            numberOfLines = (int) FloatMath.ceil(maxValue / distance);
-
-            distanceIndex++;
-            if (distanceIndex == DISTANCES.length) {
-                distanceIndex = 0;
-                distanceMultiplier *= 10;
-            }
-        } while (numberOfLines < MIN_LINES || numberOfLines > MAX_LINES);
-
+    private float getLineDistance(float maxValue, float minValue) {
+        float difference = maxValue - minValue;
+        float distance = difference / LINES_COUNT;
         return distance;
+
     }
 
     private void drawLineChart(Canvas canvas) {
@@ -101,13 +86,19 @@ public class ColumnGraph extends View {
         return Collections.max(datapoints);
     }
 
-    private float getYPos(float value) {
-        float height = getHeight() - getPaddingTop() - getPaddingBottom();
-        float maxValue = getMax();
-        value = (value / maxValue) * height;
-        value = height - value;
-        value += getPaddingTop();
-        return value;
+    private float getMin() {
+        return Collections.min(datapoints);
+    }
+
+
+    private int getYPos(float value) {
+        value = value - getMin();
+        int height = getHeight() - getPaddingTop() - getPaddingBottom();
+        float diff =  getMax() - getMin();
+        int result = (int) ((value * height) / diff);
+        result = height - result;
+        result += getPaddingTop();
+        return result;
     }
 
     private float getXPos(float value) {
