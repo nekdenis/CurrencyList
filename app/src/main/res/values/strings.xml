@@ -16,9 +16,13 @@
     <string name="add_currency_name">%1$s to %2$s</string>
 
     <string name="action_share">Share</string>
+    <string name="action_delete">Delete</string>
     <string name="action_add">Add currency</string>
 
     <!--ExchangeDetail -->
     <string name="exchange_empty">Please add two or more currencies</string>
+    <string name="details_remove_currency_yes">Ok</string>
+    <string name="details_remove_currency_no">Cancel</string>
+    <string name="details_remove_currency_title">Do you want delete this item?</string>
 
 </resources>

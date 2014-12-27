@@ -1,5 +1,7 @@
 package com.github.nekdenis.currencylist.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.nekdenis.currencylist.R;
+import com.github.nekdenis.currencylist.activity.DetailActivity;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesSelection;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueSelection;
@@ -103,6 +107,41 @@ public class ExchangeDetailFragment extends Fragment {
 //        if (mForecast != null) {
 //            mShareActionProvider.setShareIntent(createShareForecastIntent());
 //        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_delete) {
+            showDeleteDialog();
+            return true;
+        }
+        return false;
+    }
+
+    private void showDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setPositiveButton(getResources().getString(R.string.details_remove_currency_yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                deleteCurrency();
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.details_remove_currency_no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.setMessage(getResources().getString(R.string.details_remove_currency_title));
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void deleteCurrency() {
+        CurrenciesSelection currenciesSelection = new CurrenciesSelection();
+        currenciesSelection.path(exchangePath);
+        currenciesSelection.delete(getActivity().getContentResolver());
+        if (getActivity() instanceof DetailActivity) {
+            getActivity().finish();
+        }
     }
 
     private Intent createShareForecastIntent() {
