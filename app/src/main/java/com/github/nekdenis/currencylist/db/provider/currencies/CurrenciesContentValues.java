@@ -1,7 +1,5 @@
 package com.github.nekdenis.currencylist.db.provider.currencies;
 
-import java.util.Date;
-
 import android.content.ContentResolver;
 import android.net.Uri;
 
@@ -40,5 +38,16 @@ public class CurrenciesContentValues extends AbstractContentValues {
         return this;
     }
 
+
+
+    public CurrenciesContentValues putLastrate(String value) {
+        mContentValues.put(CurrenciesColumns.LASTRATE, value);
+        return this;
+    }
+
+    public CurrenciesContentValues putLastrateNull() {
+        mContentValues.putNull(CurrenciesColumns.LASTRATE);
+        return this;
+    }
 
 }

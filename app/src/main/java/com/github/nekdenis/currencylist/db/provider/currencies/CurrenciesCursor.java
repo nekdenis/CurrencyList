@@ -31,4 +31,13 @@ public class CurrenciesCursor extends AbstractCursor {
         Integer index = getCachedColumnIndexOrThrow(CurrenciesColumns.NAME);
         return getString(index);
     }
+
+    /**
+     * Get the {@code lastrate} value.
+     * Can be {@code null}.
+     */
+    public String getLastrate() {
+        Integer index = getCachedColumnIndexOrThrow(CurrenciesColumns.LASTRATE);
+        return getString(index);
+    }
 }

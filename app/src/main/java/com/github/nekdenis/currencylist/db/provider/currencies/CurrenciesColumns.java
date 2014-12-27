@@ -23,6 +23,8 @@ public class CurrenciesColumns implements BaseColumns {
 
     public static final String NAME = "name";
 
+    public static final String LASTRATE = "lastrate";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -30,7 +32,8 @@ public class CurrenciesColumns implements BaseColumns {
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
             PATH,
-            NAME
+            NAME,
+            LASTRATE
     };
     // @formatter:on
 
@@ -39,6 +42,7 @@ public class CurrenciesColumns implements BaseColumns {
         for (String c : projection) {
             if (c == PATH || c.contains("." + PATH)) return true;
             if (c == NAME || c.contains("." + NAME)) return true;
+            if (c == LASTRATE || c.contains("." + LASTRATE)) return true;
         }
         return false;
     }

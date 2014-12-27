@@ -28,7 +28,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             + CurrenciesColumns.TABLE_NAME + " ( "
             + CurrenciesColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + CurrenciesColumns.PATH + " TEXT NOT NULL, "
-            + CurrenciesColumns.NAME + " TEXT NOT NULL "
+            + CurrenciesColumns.NAME + " TEXT NOT NULL, "
+            + CurrenciesColumns.LASTRATE + " TEXT "
             + ", CONSTRAINT unique_names UNIQUE (path) ON CONFLICT REPLACE"
             + " );";
 

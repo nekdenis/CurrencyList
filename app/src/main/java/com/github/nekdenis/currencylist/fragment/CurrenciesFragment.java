@@ -29,8 +29,8 @@ import android.widget.ListView;
 
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.adapter.RateAdapter;
-import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
-import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesCursor;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 import com.github.nekdenis.currencylist.util.Constants;
 
@@ -70,10 +70,10 @@ public class CurrenciesFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(rateAdapter.getCursor());
-                if (exchangevalueCursor.moveToPosition(position)) {
+                CurrenciesCursor currenciesCursor = new CurrenciesCursor(rateAdapter.getCursor());
+                if (currenciesCursor.moveToPosition(position)) {
                     ((OnItemSelectedListener) getActivity())
-                            .onItemSelected(exchangevalueCursor.getPathval());
+                            .onItemSelected(currenciesCursor.getPath());
                 }
                 mPosition = position;
             }
@@ -110,7 +110,7 @@ public class CurrenciesFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             return new CursorLoader(
                     getActivity(),
-                    ExchangevalueColumns.CONTENT_URI,
+                    CurrenciesColumns.CONTENT_URI,
                     null,
                     null,
                     null,

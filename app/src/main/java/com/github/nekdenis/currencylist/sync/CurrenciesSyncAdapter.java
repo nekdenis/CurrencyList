@@ -16,7 +16,9 @@ import android.util.Log;
 
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesContentValues;
 import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesCursor;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesSelection;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueContentValues;
 import com.squareup.okhttp.OkHttpClient;
@@ -121,6 +123,7 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
+
     private void saveResponse(List<ExchangevalueContentValues> exchangevalueContentValues) {
         List<ContentValues> contentValuesList = new ArrayList<ContentValues>(exchangevalueContentValues.size());
         for (ExchangevalueContentValues contentValues : exchangevalueContentValues) {
@@ -133,12 +136,15 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private ExchangevalueContentValues parseJson(JSONObject rate) {
         ExchangevalueContentValues contentValues = new ExchangevalueContentValues();
-        contentValues.putPathval(rate.optString("id"));
+        String pathVal = rate.optString("id");
+        contentValues.putPathval(pathVal);
         contentValues.putTitle(rate.optString("Name"));
-        contentValues.putRate(rate.optString("Rate"));
+        String rateValue = rate.optString("Rate");
+        contentValues.putRate(rateValue);
         parseDate(rate, contentValues);
         contentValues.putAsk(rate.optString("Ask"));
         contentValues.putBid(rate.optString("Bid"));
+        updateLastRate(pathVal, rateValue);
         return contentValues;
     }
 
@@ -160,7 +166,18 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
 
+    private void updateLastRate(String currencyName, String value) {
+        CurrenciesSelection currenciesSelection = new CurrenciesSelection().path(currencyName);
+        CurrenciesCursor currenciesCursor = new CurrenciesCursor(currenciesSelection.query(getContext().getContentResolver()));
+        if (currenciesCursor.moveToNext()) {
+            CurrenciesContentValues currenciesContentValues = new CurrenciesContentValues();
+            currenciesContentValues.putPath(currenciesCursor.getPath());
+            currenciesContentValues.putName(currenciesCursor.getName());
+            currenciesContentValues.putLastrate(value);
+            currenciesContentValues.update(getContext().getContentResolver(), new CurrenciesSelection().path(currencyName));
+        }
     }
 
     private String getCurrenciesString() {

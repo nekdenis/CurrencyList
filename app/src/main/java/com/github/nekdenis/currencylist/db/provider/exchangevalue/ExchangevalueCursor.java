@@ -1,7 +1,5 @@
 package com.github.nekdenis.currencylist.db.provider.exchangevalue;
 
-import java.util.Date;
-
 import android.database.Cursor;
 
 import com.github.nekdenis.currencylist.db.provider.base.AbstractCursor;

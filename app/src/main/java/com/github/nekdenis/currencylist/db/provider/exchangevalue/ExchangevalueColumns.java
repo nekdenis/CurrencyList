@@ -4,8 +4,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.github.nekdenis.currencylist.db.provider.Provider;
-import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
-import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueColumns;
 
 /**
  * Columns for the {@code exchangevalue} table.

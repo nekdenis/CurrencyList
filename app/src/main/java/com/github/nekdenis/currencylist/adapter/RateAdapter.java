@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.nekdenis.currencylist.R;
-import com.github.nekdenis.currencylist.db.provider.exchangevalue.ExchangevalueCursor;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesCursor;
 import com.github.nekdenis.currencylist.view.ColumnGraph;
 
 public class RateAdapter extends CursorAdapter {
@@ -50,12 +50,9 @@ public class RateAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
-        ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(cursor);
-        holder.nameA.setText(exchangevalueCursor.getTitle());
-        holder.valueA.setText(exchangevalueCursor.getRate());
-        if (holder.graph != null) {
-//            holder.graph.setChartData(new float[]{10, 12, 7, 14, 15, 19, 13, 2, 10, 13, 13, 10, 15, 14});
-        }
+        CurrenciesCursor currencyCursor = new CurrenciesCursor(cursor);
+        holder.nameA.setText(currencyCursor.getName());
+        holder.valueA.setText(currencyCursor.getLastrate());
     }
 
     public void setUseTodayLayout(boolean useTodayLayout) {

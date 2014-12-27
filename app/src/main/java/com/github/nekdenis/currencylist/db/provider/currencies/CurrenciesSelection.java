@@ -82,4 +82,19 @@ public class CurrenciesSelection extends AbstractSelection<CurrenciesSelection> 
         addLike(CurrenciesColumns.NAME, value);
         return this;
     }
+
+    public CurrenciesSelection lastrate(String... value) {
+        addEquals(CurrenciesColumns.LASTRATE, value);
+        return this;
+    }
+
+    public CurrenciesSelection lastrateNot(String... value) {
+        addNotEquals(CurrenciesColumns.LASTRATE, value);
+        return this;
+    }
+
+    public CurrenciesSelection lastrateLike(String... value) {
+        addLike(CurrenciesColumns.LASTRATE, value);
+        return this;
+    }
 }

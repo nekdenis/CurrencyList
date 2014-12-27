@@ -10,6 +10,12 @@
 			"type": "String",
 			"nullable": false,
 		},
+		{
+			"name": "lastrate",
+			"type": "String",
+			"nullable": true,
+			"default": 0,
+		},
 	],
 
 	"constraints": [
