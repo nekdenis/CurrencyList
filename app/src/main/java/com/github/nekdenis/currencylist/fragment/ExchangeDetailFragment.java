@@ -155,9 +155,6 @@ public class ExchangeDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-//            mLocation = savedInstanceState.getString(LOCATION_KEY);
-        }
         getLoaderManager().initLoader(Constants.LOADER_ID_DETAIL, null, changeRateCallback);
     }
 

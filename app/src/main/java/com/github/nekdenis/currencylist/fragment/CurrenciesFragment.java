@@ -38,10 +38,12 @@ public class CurrenciesFragment extends Fragment {
 
     public static final String TAG = CurrenciesFragment.class.getSimpleName();
 
+    private static final String SELECTED_KEY = "SELECTED_KEY";
+
     private RateAdapter rateAdapter;
 
     private ListView listView;
-    private int mPosition = ListView.INVALID_POSITION;
+    private int selectedPosition = ListView.INVALID_POSITION;
     private boolean useTodayLayout;
 
     public CurrenciesFragment() {
@@ -53,9 +55,9 @@ public class CurrenciesFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_currencies, container, false);
         initList(rootView);
-//        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-//            mPosition = savedInstanceState.getInt(SELECTED_KEY);
-//        }
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            selectedPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
 
         rateAdapter.setUseTodayLayout(useTodayLayout);
 
@@ -75,7 +77,8 @@ public class CurrenciesFragment extends Fragment {
                     ((OnItemSelectedListener) getActivity())
                             .onItemSelected(currenciesCursor.getPath());
                 }
-                mPosition = position;
+                selectedPosition = position;
+                listView.setItemChecked(position, true);
             }
         });
     }
@@ -98,8 +101,8 @@ public class CurrenciesFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (mPosition != ListView.INVALID_POSITION) {
-//            outState.putInt(SELECTED_KEY, mPosition);
+        if (selectedPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, selectedPosition);
         }
         super.onSaveInstanceState(outState);
     }
@@ -121,8 +124,9 @@ public class CurrenciesFragment extends Fragment {
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             rateAdapter.swapCursor(data);
-            if (mPosition != ListView.INVALID_POSITION) {
-                listView.smoothScrollToPosition(mPosition);
+            if (selectedPosition != ListView.INVALID_POSITION) {
+                listView.smoothScrollToPosition(selectedPosition);
+                listView.setItemChecked(selectedPosition,true);
             }
         }
 
