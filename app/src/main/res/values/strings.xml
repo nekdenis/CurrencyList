@@ -9,6 +9,7 @@
     <!-- SyncAdapter -->
     <string name="sync_account_type">currencylist.nekdenis.github.com</string>
     <string name="content_authority">com.github.nekdenis.currencylistprovider</string>
+    <string name="notification_text">All currencies successfuly updated</string>
 
     <!-- AddCurrencyDialog -->
     <string name="add_currency_button">Add</string>
@@ -24,5 +25,6 @@
     <string name="details_remove_currency_yes">Ok</string>
     <string name="details_remove_currency_no">Cancel</string>
     <string name="details_remove_currency_title">Do you want delete this item?</string>
+
 
 </resources>
