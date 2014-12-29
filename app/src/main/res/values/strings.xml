@@ -25,6 +25,7 @@
     <string name="details_remove_currency_yes">Ok</string>
     <string name="details_remove_currency_no">Cancel</string>
     <string name="details_remove_currency_title">Do you want delete this item?</string>
+    <string name="share_rate_string">%1$s exchange rate is %2$s</string>
 
 
 </resources>
