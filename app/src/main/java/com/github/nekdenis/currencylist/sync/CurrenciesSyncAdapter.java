@@ -215,7 +215,6 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-
     /**
      * Helper method to have the sync adapter sync immediately
      *

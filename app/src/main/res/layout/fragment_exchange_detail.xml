@@ -1,38 +1,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/exchange_detail_name"
+    <android.support.v7.widget.CardView
+        android:id="@+id/exchange_detail_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center_horizontal"
-        tools:text="RUB-EUR"
-        android:textSize="32sp" />
+        app:cardCornerRadius="2dp"
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/exchange_detail_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center_horizontal"
+                tools:text="RUB-EUR"
+                android:textSize="32sp" />
 
 
-    <TextView
-        android:id="@+id/exchange_detail_current"
+            <TextView
+                android:id="@+id/exchange_detail_current"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="start"
+                tools:text="@string/exchange_current_label"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@id/exchange_detail_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_below="@id/exchange_detail_name"
-        android:gravity="start"
-        tools:text="@string/exchange_current_label"
-        android:textSize="24sp" />
+        app:cardCornerRadius="2dp"
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="@android:color/white">
 
-    <com.github.nekdenis.currencylist.view.ColumnGraph
-        android:id="@+id/exchange_detail_graph"
-        android:layout_below="@id/exchange_detail_current"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:paddingBottom="50dp"
-        android:layout_marginTop="8dp" />
+        <com.github.nekdenis.currencylist.view.ColumnGraph
+            android:id="@+id/exchange_detail_graph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="8dp" />
+    </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:id="@+id/exchange_detail_empty_container"

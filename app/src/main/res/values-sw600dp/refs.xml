@@ -1,3 +1,0 @@
-<resources>
-    <item type="layout" name="fragment_exchange_detail">@layout/fragment_exchange_detail_wide</item>
-</resources>
