@@ -28,7 +28,7 @@ public class NotificationUtil {
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
-//                                .setSmallIcon(iconId)
+                            .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle(title)
                             .setContentText(notificatonMessage);
 
