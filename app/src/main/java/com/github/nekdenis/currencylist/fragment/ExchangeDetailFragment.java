@@ -99,6 +99,7 @@ public class ExchangeDetailFragment extends Fragment {
         super.onResume();
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.detailfragment, menu);
@@ -160,18 +161,16 @@ public class ExchangeDetailFragment extends Fragment {
 
     private void fillData(Cursor data) {
         ExchangevalueCursor exchangevalueCursor = new ExchangevalueCursor(data);
-        if (data != null && data.moveToFirst()) {
-            currencyName.setText(exchangevalueCursor.getTitle());
-            currencyCurrentValue.setText(exchangevalueCursor.getRate());
-            if (shareActionProvider != null) {
-                shareActionProvider.setShareIntent(createShareForecastIntent());
-            }
-            List<Float> rateValues = new ArrayList<Float>();
-            for (exchangevalueCursor.moveToFirst(); !exchangevalueCursor.isAfterLast(); exchangevalueCursor.moveToNext()) {
-                rateValues.add(Float.parseFloat(exchangevalueCursor.getRate()));
-            }
-            graphView.setChartData(rateValues);
+        currencyName.setText(exchangevalueCursor.getTitle());
+        currencyCurrentValue.setText(getString(R.string.exchange_current_label, exchangevalueCursor.getRate()));
+        if (shareActionProvider != null) {
+            shareActionProvider.setShareIntent(createShareForecastIntent());
         }
+        List<Float> rateValues = new ArrayList<Float>();
+        for (exchangevalueCursor.moveToFirst(); !exchangevalueCursor.isAfterLast(); exchangevalueCursor.moveToNext()) {
+            rateValues.add(Float.parseFloat(exchangevalueCursor.getRate()));
+        }
+        graphView.setChartData(rateValues);
     }
 
     LoaderManager.LoaderCallbacks<Cursor> changeRateCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
@@ -200,4 +199,6 @@ public class ExchangeDetailFragment extends Fragment {
         public void onLoaderReset(Loader<Cursor> loader) {
         }
     };
+
+
 }

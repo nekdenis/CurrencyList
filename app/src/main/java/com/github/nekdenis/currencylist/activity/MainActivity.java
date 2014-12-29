@@ -18,6 +18,7 @@ package com.github.nekdenis.currencylist.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -34,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
     private final String TAG = MainActivity.class.getSimpleName();
 
     private boolean twoPane = false;
+    CurrenciesFragment currenciesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +52,24 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
             twoPane = false;
         }
 
-        CurrenciesFragment currenciesFragment = ((CurrenciesFragment) getSupportFragmentManager()
+        currenciesFragment = ((CurrenciesFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_currencies));
         if (currenciesFragment != null) {
             currenciesFragment.setUseTodayLayout(!twoPane);
+            currenciesFragment.getView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (twoPane) {
+                        String itemPath = currenciesFragment.getFirstItemPath();
+                        if (!TextUtils.isEmpty(itemPath)) {
+                            onItemSelected(itemPath);
+                        }
+                    }
+                }
+            }, 200);
         }
 
         initSync();
-
     }
 
     private void initSync() {
@@ -106,6 +118,7 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
             currenciesContentValues.putName(getString(R.string.add_currency_name, from, to));
             currenciesContentValues.insert(getContentResolver());
             reSync();
+            dialog.dismiss();
         }
     };
 }

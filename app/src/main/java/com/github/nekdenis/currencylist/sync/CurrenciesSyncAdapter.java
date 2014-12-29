@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String TAG = CurrenciesSyncAdapter.class.getSimpleName();
@@ -151,7 +152,7 @@ public class CurrenciesSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void parseDate(JSONObject rate, ExchangevalueContentValues contentValues) {
         //"Date":"12/25/2014","Time":"1:57am"
-        SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy KK:mmaa Z");
+        SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy KK:mmaa Z", Locale.US);
         SimpleDateFormat timeParser = new SimpleDateFormat("");
         String dateString = rate.optString("Date");
         String timeString = rate.optString("Time");

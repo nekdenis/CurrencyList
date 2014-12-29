@@ -89,10 +89,6 @@ public class CurrenciesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void updateRates() {
-        CurrenciesSyncAdapter.syncImmediately(getActivity());
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -107,6 +103,9 @@ public class CurrenciesFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    private void updateRates() {
+        CurrenciesSyncAdapter.syncImmediately(getActivity());
+    }
 
     LoaderCallbacks<Cursor> ratesCallback = new LoaderCallbacks<Cursor>() {
         @Override
@@ -126,7 +125,7 @@ public class CurrenciesFragment extends Fragment {
             rateAdapter.swapCursor(data);
             if (selectedPosition != ListView.INVALID_POSITION) {
                 listView.smoothScrollToPosition(selectedPosition);
-                listView.setItemChecked(selectedPosition,true);
+                listView.setItemChecked(selectedPosition, true);
             }
         }
 
@@ -145,5 +144,13 @@ public class CurrenciesFragment extends Fragment {
 
     public interface OnItemSelectedListener {
         public void onItemSelected(String exchangePath);
+    }
+
+    public String getFirstItemPath() {
+        if (rateAdapter.getCount() > 0) {
+            CurrenciesCursor currenciesCursor = new CurrenciesCursor((Cursor) rateAdapter.getItem(0));
+            return currenciesCursor.getPath();
+        }
+        return "";
     }
 }
