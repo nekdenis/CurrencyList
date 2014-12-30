@@ -50,14 +50,23 @@ public class CurrenciesFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            selectedPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_currencies, container, false);
         initList(rootView);
-        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            selectedPosition = savedInstanceState.getInt(SELECTED_KEY);
-        }
 
         rateAdapter.setUseTodayLayout(useTodayLayout);
 

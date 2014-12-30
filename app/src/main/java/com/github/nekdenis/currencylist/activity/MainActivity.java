@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesContentValues;
@@ -41,11 +42,13 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ExchangeDetailFragment exchangeDetailFragment;
         if (findViewById(R.id.exchange_detail_container) != null) {
             twoPane = true;
             if (savedInstanceState == null) {
+                exchangeDetailFragment = ExchangeDetailFragment.newInstance();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.exchange_detail_container, ExchangeDetailFragment.newInstance())
+                        .replace(R.id.exchange_detail_container, exchangeDetailFragment)
                         .commit();
             }
         } else {
@@ -56,17 +59,19 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
                 .findFragmentById(R.id.fragment_currencies));
         if (currenciesFragment != null) {
             currenciesFragment.setUseTodayLayout(!twoPane);
-            currenciesFragment.getView().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (twoPane) {
-                        String itemPath = currenciesFragment.getFirstItemPath();
-                        if (!TextUtils.isEmpty(itemPath)) {
-                            onItemSelected(itemPath);
+            if (currenciesFragment.getSelectedPosition() == ListView.INVALID_POSITION) {
+                currenciesFragment.getView().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (twoPane) {
+                            String itemPath = currenciesFragment.getFirstItemPath();
+                            if (!TextUtils.isEmpty(itemPath)) {
+                                onItemSelected(itemPath);
+                            }
                         }
                     }
-                }
-            }, 200);
+                }, 200);
+            }
         }
 
         initSync();
