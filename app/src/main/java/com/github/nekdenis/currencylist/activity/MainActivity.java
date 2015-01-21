@@ -15,19 +15,14 @@
  */
 package com.github.nekdenis.currencylist.activity;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.github.nekdenis.currencylist.R;
-import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesContentValues;
 import com.github.nekdenis.currencylist.fragment.CurrenciesFragment;
 import com.github.nekdenis.currencylist.fragment.ExchangeDetailFragment;
-import com.github.nekdenis.currencylist.fragment.dialog.AddCurrencyDialog;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 
 
@@ -81,27 +76,6 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
         CurrenciesSyncAdapter.initializeSyncAdapter(this);
     }
 
-    private void reSync() {
-        CurrenciesSyncAdapter.syncImmediately(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_add) {
-            AddCurrencyDialog.newInstance(onAddCurencyClickListener).show(getSupportFragmentManager(), "AddCurrencyDialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     @Override
     public void onItemSelected(String exchangePath) {
         if (twoPane) {
@@ -114,16 +88,4 @@ public class MainActivity extends ActionBarActivity implements CurrenciesFragmen
             DetailActivity.startActivity(this, exchangePath);
         }
     }
-
-    private AddCurrencyDialog.OnDialogClickListener onAddCurencyClickListener = new AddCurrencyDialog.OnDialogClickListener() {
-        @Override
-        public void onAddClick(String from, String to, Dialog dialog) {
-            CurrenciesContentValues currenciesContentValues = new CurrenciesContentValues();
-            currenciesContentValues.putPath(from + to);
-            currenciesContentValues.putName(getString(R.string.add_currency_name, from, to));
-            currenciesContentValues.insert(getContentResolver());
-            reSync();
-            dialog.dismiss();
-        }
-    };
 }

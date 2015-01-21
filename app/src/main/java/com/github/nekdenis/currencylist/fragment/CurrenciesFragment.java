@@ -15,13 +15,19 @@
  */
 package com.github.nekdenis.currencylist.fragment;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,7 +36,9 @@ import android.widget.ListView;
 import com.github.nekdenis.currencylist.R;
 import com.github.nekdenis.currencylist.adapter.RateAdapter;
 import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesColumns;
+import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesContentValues;
 import com.github.nekdenis.currencylist.db.provider.currencies.CurrenciesCursor;
+import com.github.nekdenis.currencylist.fragment.dialog.AddCurrencyDialog;
 import com.github.nekdenis.currencylist.sync.CurrenciesSyncAdapter;
 import com.github.nekdenis.currencylist.util.Constants;
 
@@ -39,6 +47,8 @@ public class CurrenciesFragment extends Fragment {
     public static final String TAG = CurrenciesFragment.class.getSimpleName();
 
     private static final String SELECTED_KEY = "SELECTED_KEY";
+    private static final int MSG_SHOW_DIALOG = 23;
+    public static final String ADD_CURRENCY_DIALOG = "AddCurrencyDialog";
 
     private RateAdapter rateAdapter;
 
@@ -55,6 +65,7 @@ public class CurrenciesFragment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
             selectedPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
+        setHasOptionsMenu(true);
     }
 
     public int getSelectedPosition() {
@@ -71,6 +82,28 @@ public class CurrenciesFragment extends Fragment {
         rateAdapter.setUseTodayLayout(useTodayLayout);
 
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_add) {
+            showAddCurrencyDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showAddCurrencyDialog() {
+        if (getFragmentManager().findFragmentByTag(ADD_CURRENCY_DIALOG) == null) {
+            AddCurrencyDialog.newInstance(onAddCurencyClickListener).show(getActivity().getSupportFragmentManager(), ADD_CURRENCY_DIALOG);
+        }
     }
 
     private void initList(View rootView) {
@@ -136,6 +169,9 @@ public class CurrenciesFragment extends Fragment {
                 listView.smoothScrollToPosition(selectedPosition);
                 listView.setItemChecked(selectedPosition, true);
             }
+            if (rateAdapter.getCount() == 0) {
+                handler.sendEmptyMessage(MSG_SHOW_DIALOG);
+            }
         }
 
         @Override
@@ -162,4 +198,33 @@ public class CurrenciesFragment extends Fragment {
         }
         return "";
     }
+
+    private AddCurrencyDialog.OnDialogClickListener onAddCurencyClickListener = new AddCurrencyDialog.OnDialogClickListener() {
+        @Override
+        public void onAddClick(String from, String to, Dialog dialog) {
+            addCurrency(from, to, dialog);
+        }
+    };
+
+    private void addCurrency(String from, String to, Dialog dialog) {
+        CurrenciesContentValues currenciesContentValues = new CurrenciesContentValues();
+        currenciesContentValues.putPath(from + to);
+        currenciesContentValues.putName(getString(R.string.add_currency_name, from, to));
+        currenciesContentValues.insert(getActivity().getContentResolver());
+        reSync();
+        dialog.dismiss();
+    }
+
+    private void reSync() {
+        CurrenciesSyncAdapter.syncImmediately(getActivity());
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_SHOW_DIALOG) {
+                showAddCurrencyDialog();
+            }
+        }
+    };
 }

@@ -103,6 +103,7 @@ public class ExchangeDetailFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.detailfragment, menu);
         shareMenuItem = menu.findItem(R.id.action_share);
         shareMenuItem.setVisible(false);
