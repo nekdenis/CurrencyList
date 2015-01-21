@@ -43,6 +43,7 @@ public class ExchangeDetailFragment extends Fragment {
     private ColumnGraph graphView;
 
     private String exchangePath = "";
+    private MenuItem shareMenuItem;
     private ShareActionProvider shareActionProvider;
 
     public static ExchangeDetailFragment newInstance(String exchangePath) {
@@ -103,8 +104,9 @@ public class ExchangeDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.detailfragment, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        shareMenuItem = menu.findItem(R.id.action_share);
+        shareMenuItem.setVisible(false);
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
     }
 
     @Override
@@ -160,6 +162,7 @@ public class ExchangeDetailFragment extends Fragment {
         currencyName.setText(data.getTitle());
         currencyCurrentValue.setText(getString(R.string.exchange_current_label, data.getRate()));
         if (shareActionProvider != null) {
+            shareMenuItem.setVisible(true);
             shareActionProvider.setShareIntent(createShareForecastIntent(data));
         }
         List<Float> rateValues = new ArrayList<Float>();
